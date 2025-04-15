@@ -1,0 +1,11 @@
+valor,              nombre
+
+0,                     Radio inicial
+1,                     gtt central
+0,                     gtt' central
+1,                     grr central
+0,                     grr' central
+1.96028764,            R central
+0,                     Derivada del escalar de curvatura
+0,                     Masa_s central
+1e-9,                  delta

@@ -1,0 +1,25 @@
+my_project/
+    __init__.py                  
+    scenarios/
+        __init__.py              
+        scenario_a/
+            __init__.py          
+            data/
+                init_cond.dat
+                init_gas.dat
+            variables.py
+            f_functions.py
+        scenario_b/
+            __init__.py          # Makes "scenario_b" a sub-package
+            data/
+                init_cond.dat
+                init_gas.dat
+            variables.py
+            ...
+    shared/
+        __init__.py
+        events.py
+        plots.py
+	derivative_functions.py
+        vectorized_derivative.py
+    main.py

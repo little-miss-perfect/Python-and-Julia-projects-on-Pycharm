@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d4b7337-2460-4cb3-9402-708aee3123a3" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/servicio_social/plotting_allowed_initial_values.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2q2EbUVpiXk83ldS7LTpZpx23F1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.events.executor": "Run",
+    "Python.f_functions.executor": "Run",
+    "Python.finding_allowed_initial_values.executor": "Run",
+    "Python.finding_roots.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.original_integration.executor": "Run",
+    "Python.plots.executor": "Run",
+    "Python.plotting_allowed_initial_values.executor": "Run",
+    "Python.plotting_original_integration.executor": "Run",
+    "Python.test_here.executor": "Run",
+    "Python.variables.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/morni/PycharmProjects/servicio_social_intentos/RELATIVITY_mod7.0_modules",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d4b7337-2460-4cb3-9402-708aee3123a3" name="Changes" comment="" />
+      <created>1733852341427</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733852341427</updated>
+      <workItem from="1733852344915" duration="1255000" />
+      <workItem from="1733865551335" duration="24000" />
+      <workItem from="1734391747002" duration="388000" />
+      <workItem from="1734392227949" duration="8698000" />
+      <workItem from="1734465112786" duration="36011000" />
+      <workItem from="1734546445907" duration="23491000" />
+      <workItem from="1735236482716" duration="23000" />
+      <workItem from="1735752140865" duration="27398000" />
+      <workItem from="1735874915106" duration="165000" />
+      <workItem from="1735875287276" duration="4168000" />
+      <workItem from="1736198675355" duration="22000" />
+      <workItem from="1736289514609" duration="29036000" />
+      <workItem from="1736400354439" duration="2069000" />
+      <workItem from="1736499813428" duration="169000" />
+      <workItem from="1736809813143" duration="3738000" />
+      <workItem from="1736813792037" duration="624000" />
+      <workItem from="1737056774972" duration="2250000" />
+      <workItem from="1737390734795" duration="83000" />
+      <workItem from="1737390923852" duration="20623000" />
+      <workItem from="1737522156379" duration="4439000" />
+      <workItem from="1737527727137" duration="9815000" />
+      <workItem from="1737671901147" duration="6118000" />
+      <workItem from="1737742169088" duration="11271000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod2_events$finding_allowed_initial_values.coverage" NAME="finding_allowed_initial_values Coverage Results" MODIFIED="1734546247054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod2_events$variables.coverage" NAME="variables Coverage Results" MODIFIED="1734470840617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod2_events$plots.coverage" NAME="plots Coverage Results" MODIFIED="1734470862301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/class_definitions" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod6_another_f_function$finding_roots.coverage" NAME="finding_roots Coverage Results" MODIFIED="1737526390381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_1_fix_events$plotting_original_integration.coverage" NAME="plotting_original_integration Coverage Results" MODIFIED="1736380231066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_finding_R0$test_here.coverage" NAME="test_here Coverage Results" MODIFIED="1735804189498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod7_0_modules$variables.coverage" NAME="variables Coverage Results" MODIFIED="1737748715036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/[0] scenarios/[0.1] Hu-Sawicki" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod5_clearer$plotting_allowed_initial_values.coverage" NAME="plotting_allowed_initial_values Coverage Results" MODIFIED="1737521832913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod4_2_try_except$finding_allowed_initial_values.coverage" NAME="finding_allowed_initial_values Coverage Results" MODIFIED="1736813165488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_1_fix_events$plotting_allowed_initial_values.coverage" NAME="plotting_allowed_initial_values Coverage Results" MODIFIED="1736402842312" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod2_inheritance$main.coverage" NAME="main Coverage Results" MODIFIED="1734452926776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod5_clearer$finding_allowed_initial_values.coverage" NAME="finding_allowed_initial_values Coverage Results" MODIFIED="1737406657418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod7_0_modules$main.coverage" NAME="main Coverage Results" MODIFIED="1737755840606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod7_0_modules$f_functions.coverage" NAME="f_functions Coverage Results" MODIFIED="1737754586615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scenarios/Hu_Sawicki" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod1$main.coverage" NAME="main Coverage Results" MODIFIED="1733865349735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod2_events$main.coverage" NAME="main Coverage Results" MODIFIED="1734546302359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_1_fix_events$finding_allowed_initial_values.coverage" NAME="finding_allowed_initial_values Coverage Results" MODIFIED="1736400558897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_finding_R0$plotting_allowed_initial_values.coverage" NAME="plotting_allowed_initial_values Coverage Results" MODIFIED="1735804984280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod4_2_try_except$plotting_allowed_initial_values.coverage" NAME="plotting_allowed_initial_values Coverage Results" MODIFIED="1736813220975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod5_clearer$events.coverage" NAME="events Coverage Results" MODIFIED="1737421508384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod5_clearer$variables.coverage" NAME="variables Coverage Results" MODIFIED="1737403242572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod6_another_f_function$plotting_allowed_initial_values.coverage" NAME="plotting_allowed_initial_values Coverage Results" MODIFIED="1737527433948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod6_another_f_function$f_functions.coverage" NAME="f_functions Coverage Results" MODIFIED="1737525699516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod5_clearer$finding_roots.coverage" NAME="finding_roots Coverage Results" MODIFIED="1737521101414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_finding_R0$original_integration.coverage" NAME="original_integration Coverage Results" MODIFIED="1735807846666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+    <SUITE FILE_PATH="coverage/RELATIVITY_mod3_finding_R0$finding_allowed_initial_values.coverage" NAME="finding_allowed_initial_values Coverage Results" MODIFIED="1735807894382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/servicio_social" />
+  </component>
+</project>

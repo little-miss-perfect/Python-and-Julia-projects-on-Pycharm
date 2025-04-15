@@ -1,0 +1,8 @@
+valor,                              nombre
+
+2.795916969e4,                  densidad rho al centro (pero también tiene 7.026948e7 y 39462.773745862)
+4,                                    valor n en la f(R) de HU-SAWICKY
+0.4898979486,             valor de m en f(R) de HU-SAWICKY
+-0.01,                             valor de f1hoy
+0.1,                                 cte. Politropo
+2,                                    gama Politropo
