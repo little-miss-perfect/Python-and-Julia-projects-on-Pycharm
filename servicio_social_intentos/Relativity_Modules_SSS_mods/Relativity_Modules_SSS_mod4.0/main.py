@@ -5,23 +5,21 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
-# ---------------------------------------------------------------------
-# Import your scenario and derivative functions.
-# ---------------------------------------------------------------------
 from shared.derivative_functions import DerivativeFunctions, ShootingSolver
 from shared.scenario_data import Scenario
 from shared.potential_extrema import find_roots, PotentialDerivative
 
-# Map your scenarios and choose one:
+# TODO 1: choose a scenario
 scenarios_map = {
-    "Hu_Sawicki": "scenarios.Hu_Sawicki.f_functions",
-    "alpha_L_L_M": "scenarios.alpha_L_L_M.f_functions",
-    "lambda_L_L_M": "scenarios.lambda_L_L_M.f_functions",
+    "Hu_Sawicki": "scenarios.Hu_Sawicki.f_functions",  # R0: 12371.572599817805894
+    "alpha_L_L_M": "scenarios.alpha_L_L_M.f_functions",  # R0 = 1.660731799228
+    "lambda_L_L_M": "scenarios.lambda_L_L_M.f_functions",  # R0 = 2.289814669280
 }
+
 chosen_scenario = "Hu_Sawicki"
 scenario_mod = importlib.import_module(scenarios_map[chosen_scenario])
 
-# Initialize scenario with module parameters
+# TODO 2: "unpack" the information from the chosen module
 scene = Scenario(
     r0=scenario_mod.r0,
     R0=scenario_mod.R0,
@@ -36,7 +34,7 @@ scene = Scenario(
     f32=scenario_mod.f32
 )
 
-# Set up derivative functions
+# TODO 3: define the derivative functions to be used
 d_f = DerivativeFunctions(scene.f, scene.f1, scene.f2, scene.f3, scene.f32,
                           scene.rho, scene.xrho, scene.T)
 
@@ -44,11 +42,10 @@ F = d_f.F
 p_e = PotentialDerivative(scene.f, scene.f1)
 dVdR = p_e.dVdR
 
+# TODO 3.1: we can't integrate to infinity, but we can integrate pretty far
 x_max = 1e12  # this shows up to where we truncate our "infinite" domain
 
-# ---------------------------------------------------------------------
-# Find potential minimum (ROOT FINDING)
-# ---------------------------------------------------------------------
+# TODO 4: find the minimum to the given potential (with root finding)
 start = -0.05e2
 stop = 0.15e2
 num_points = 500
@@ -63,9 +60,7 @@ except Exception as e:
     exit(1)
 
 
-# ---------------------------------------------------------------------
-# SHOOTING METHOD IMPLEMENTATION (UPDATED)
-# ---------------------------------------------------------------------
+# TODO 5: our shooting method
 class ShootingSolver:
     def __init__(self, F, base_r0, target, t_span=(0, x_max),  # Increased to 1e5
                  method='DOP853', rtol=1e-6, atol=1e-9):
@@ -104,9 +99,7 @@ class ShootingSolver:
         return root
 
 
-# ---------------------------------------------------------------------
-# BRACKET VALIDATION AND REFINEMENT (UPDATED)
-# ---------------------------------------------------------------------
+# TODO 6: for interval refinement for the initial value
 def refine_R0(base_r0, target_R, initial_bracket, refinement_steps=9):
     solver = ShootingSolver(
         F=d_f.F,
@@ -159,9 +152,7 @@ def refine_R0(base_r0, target_R, initial_bracket, refinement_steps=9):
     return current_R0
 
 
-# ---------------------------------------------------------------------
-# MAIN EXECUTION (UPDATED)
-# ---------------------------------------------------------------------
+# TODO 7: finding the
 initial_bracket = (0.1, 1e3)
 solver = ShootingSolver(
     F=d_f.F,

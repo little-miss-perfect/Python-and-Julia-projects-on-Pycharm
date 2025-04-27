@@ -27,7 +27,7 @@ from plotting_allowed_initial_values import *
 # TODO 7: define an "integrator" class for the "vectorized" problem,
 #         (such that you can choose from multiple "integrators"? maybe after just one of them works out)
 #         preferably, choose one that handles a variable "step size".
-r0[2] = 170  # this renames entry "2" of the array "r0". and "170" is also the first suggested unmodified value of "R0" that we know works
+r0[2] = 12371.572599817798618  # this renames entry "2" of the array "r0". and "170" is also the first suggested unmodified value of "R0" that we know works  (but we also recently found "12371.572599817798618"; but we're not sure if this is correct)
 integrator = ODEIntegrator(F, r0)
 integrator.integrate()
 x, r = integrator.get_solution()
