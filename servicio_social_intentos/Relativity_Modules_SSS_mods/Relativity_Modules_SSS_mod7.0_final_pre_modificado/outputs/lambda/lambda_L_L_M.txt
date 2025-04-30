@@ -1,0 +1,14 @@
+"lambda_L_L_M"
+
+
+
+
+the nontrivial minimum of the potential is at "R = 1.984"
+Step 1: R0 = 2.289814540189, Bracket: (0.100000000000, 200.000000000000)
+Step 2: R0 = 2.289814530420, Bracket: (0.290814540189, 4.288814540189)
+Step 3: R0 = 2.289814557737, Bracket: (2.285816530420, 2.293812530420)
+Step 4: residuals tiny—stopping at R0 = 2.289814557737
+
+ Final R0: 2.289814557737051
+
+Process finished with exit code 0
