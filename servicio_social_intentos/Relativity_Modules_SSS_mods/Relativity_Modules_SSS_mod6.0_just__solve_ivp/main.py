@@ -17,7 +17,7 @@ scenarios_map = {
     "lambda_L_L_M": "scenarios.lambda_L_L_M.scenario_data",
                     }
 
-chosen_scenario = "lambda_L_L_M"
+chosen_scenario = "Hu_Sawicki"
 
 
 # TODO: import the corresponding modules
@@ -117,7 +117,7 @@ print("Found extrema at: R = ", found_roots)
 
 start_int = timeit.default_timer()
 
-r0[2] = 2.289814669280
+r0[2] = 12371.572599817799
 # newest values go from left to right (approaching the last root)
 
 # para H-S usa estos valores # 12371.572599817799 # these values should approach "8.902634203309109"
