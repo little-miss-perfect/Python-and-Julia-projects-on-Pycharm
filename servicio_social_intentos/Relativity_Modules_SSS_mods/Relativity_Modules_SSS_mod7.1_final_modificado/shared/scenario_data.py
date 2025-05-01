@@ -27,14 +27,14 @@ class Scenario:
         self.f32  = f32
 
 scenarios_map = {
-    "Hu_Sawicki":    "scenarios.Hu_Sawicki.f_functions",  # R0: 12371.572599817798618 12371.572599817798618
-    "alpha_L_L_M":   "scenarios.alpha_L_L_M.f_functions",  # R0 = 1.660731799228 1.660732198089454
-    "lambda_L_L_M":  "scenarios.lambda_L_L_M.f_functions",  # R0 = 2.289814669280079 2.289814557737051
+    "Hu_Sawicki":    "scenarios.Hu_Sawicki.f_functions",  # R0: 12371.572599817798618
+    "alpha_L_L_M":   "scenarios.alpha_L_L_M.f_functions",  # R0: 1.660731799228
+    "lambda_L_L_M":  "scenarios.lambda_L_L_M.f_functions",  # R0: 2.289814669280079
 }
 
 def load_scenario(name):
     '''
-    defined to make the main file cleaner.
+    defined to make the main file cleaner
 
     :param name: the name of the scenario
     :return: the chosen scenario

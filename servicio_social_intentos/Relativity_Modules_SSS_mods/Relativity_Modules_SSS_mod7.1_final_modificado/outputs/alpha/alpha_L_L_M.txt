@@ -3,13 +3,19 @@
 
 
 
-the nontrivial minimum of the potential is at "R = 1.40538"
-Step 1: R0 = 1.660732179095, Bracket: (0.100000000000, 200.000000000000)
-Step 2: R0 = 1.660732187138, Bracket: (0.080000000000, 3.659732179095)
-Step 3: R0 = 1.660732187406, Bracket: (1.657152454959, 1.664311919317)
-Step 4: residuals tiny—stopping at R0 = 1.660732187406
 
- Final R0: 1.660732187405582
-Integration reached (x=2.922e+00, R=1.405e+00)
+ the nontrivial minimum of the potential is at "R = 1.405" 
+
+Step 1: R0 = 1.660732186669, Bracket: (-0.999999990000, 200.000000000000)
+Step 2: R0 = 1.660732188952, Bracket: (-0.349267813231, 3.670732186569)
+Step 3: R0 = 1.660732198075, Bracket: (1.656712188952, 1.664752188951)
+Step 4: residuals tiny—stopping at R0 = 1.660732198075
+
+ Final R0: 1.660732198074540 
+
+Integration reached (x=2.922, R=1.405)
+
+ our solution approaches a value that is about '-0.000000003' units away from the target value at infinity 
+
 
 Process finished with exit code 0
