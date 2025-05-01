@@ -8,7 +8,7 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "lambda_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
@@ -40,7 +40,7 @@ F = d_f.F
 p_d = PotentialDerivative(scene.f, scene.f1, scene.f2)
 dVdR = p_d.dVdR
 
-# TODO 4: find the minimum to the given potential (with root finding)
+# TODO 3: find the minimum to the given potential (with root finding)
 
 try:
     R_for_min_of_potential = find_global_minimum(p_d, start, stop, num_points)  # "start" depends on the chosen "scene"
@@ -62,7 +62,7 @@ dVdR_vals = [dVdR(R) for R in R_vals]
 
 plot_potential_derivative(dVdR, start, stop, num_points)
 
-# TODO 7: finding (and fine tuning) "R0"
+# TODO 5: finding (and fine tuning) "R0"
 
 initial_bracket = find_valid_bracket(
     F              = F,
@@ -88,7 +88,7 @@ print(f"\n Final R0: {optimal_R0:.15f} \n")
 r0_refined = scene.r0.copy()  # this is to not modify the current solution
 r0_refined[2] = optimal_R0
 
-# TODO 8: plot the "refinement"
+# TODO 6: plot the "refinement"
 
 # and now we compute the solution with the refined "R0"
 sol = solve_ivp(
