@@ -3,14 +3,13 @@
 
 
 
-the nontrivial minimum of the potential is at "R = 1.405"
-C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.0_final\scenarios\alpha_L_L_M\f_functions.py:6: RuntimeWarning: invalid value encountered in log
-  return R - alpha_mir * R_star * np.log(1 + (R / R_star))  # the problem with this function, is that we need to only consider values of "R" such that "-R_star < R" (assuming that "0 < R_star")
-Step 1: R0 = 1.660732199129, Bracket: (0.100000000000, 200.000000000000)
-Step 2: R0 = 1.660732198374, Bracket: (0.080000000000, 3.659732199129)
-Step 3: R0 = 1.660732198089, Bracket: (1.657152466175, 1.664311930573)
-Step 4: residuals tiny—stopping at R0 = 1.660732198089
+the nontrivial minimum of the potential is at "R = 1.40538"
+Step 1: R0 = 1.660732179095, Bracket: (0.100000000000, 200.000000000000)
+Step 2: R0 = 1.660732187138, Bracket: (0.080000000000, 3.659732179095)
+Step 3: R0 = 1.660732187406, Bracket: (1.657152454959, 1.664311919317)
+Step 4: residuals tiny—stopping at R0 = 1.660732187406
 
- Final R0: 1.660732198089454
+ Final R0: 1.660732187405582
+Integration reached (x=2.922e+00, R=1.405e+00)
 
 Process finished with exit code 0

@@ -117,7 +117,13 @@ print("Found extrema at: R = ", found_roots)
 
 start_int = timeit.default_timer()
 
-r0[2] = 12371.572599817799
+# R0: R_final_numerical : R_final_theoretical
+
+# 170 : 6.3332166668970675 : 8.902634203309109
+# 12371.572599817805894 : 6.332409400491171 : 8.902634203309109
+# 171: 6.331464091245532 : 6.331464091245532 : 8.902634203309109
+
+r0[2] = 171
 # newest values go from left to right (approaching the last root)
 
 # para H-S usa estos valores # 12371.572599817799 # these values should approach "8.902634203309109"
