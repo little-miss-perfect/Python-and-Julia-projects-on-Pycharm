@@ -1,5 +1,5 @@
 from shared.scenario_data import load_scenario
-from shared.plots import plot_potential_derivative, plot_refined_solution
+from shared.plots import *
 from shared.potential_extrema import PotentialDerivative, find_global_minimum
 from scenarios.alpha_L_L_M.variables import R_star  # we need to be careful with the value of the logarithm
 from shared.derivative_functions import DerivativeFunctions, refine_R0, find_valid_bracket, solve_ivp
@@ -8,7 +8,7 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "Hu_Sawicki"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
@@ -48,7 +48,10 @@ except Exception as e:
     print(f"our root finding failed: {e}")
     exit(1)
 
-# TODO 4.1: plot "dV/dR" vs "R"
+# TODO 4.1: plot "V" vs "R"
+plot_potential(p_d, start, stop, num_points=1000, R_ref=0)
+
+# TODO 4.2: plot "dV/dR" vs "R"
 R_vals    = np.linspace(start, stop, num_points)
 dVdR_vals = [dVdR(R) for R in R_vals]
 
