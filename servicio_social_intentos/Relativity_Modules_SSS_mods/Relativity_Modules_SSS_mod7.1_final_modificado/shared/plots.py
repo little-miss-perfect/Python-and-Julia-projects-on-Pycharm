@@ -25,10 +25,10 @@ def plot_potential(p, start, stop, num_points=500, R_ref=None):
     plt.figure()
     label = f'V(R) - V({R_ref})' if R_ref is not None else 'V(R) - V(0)'
     plt.plot(R_vals, V_vals, label=label)
-    plt.axhline(0, linestyle=':', color='black')
+    plt.axhline(p.V(R0_ref, R0_ref), linestyle=':', color='black')
     plt.xlabel('R')
     plt.ylabel('V(R)')
-    plt.title('Potential V(R)')
+    plt.title('potential')
     plt.grid(False)
     plt.legend()
     plt.tight_layout()
@@ -46,6 +46,7 @@ def plot_potential_derivative(dVdR, start, stop, num_points=500):
     :param num_points: the number of points to plot
     """
 
+    # define the points to be plotted
     R_vals    = np.linspace(start, stop, num_points)
     dVdR_vals = [dVdR(R) for R in R_vals]
 
@@ -54,7 +55,7 @@ def plot_potential_derivative(dVdR, start, stop, num_points=500):
     plt.axhline(0, linestyle=':', color='black')
     plt.xlabel('R')
     plt.ylabel('dV/dR')
-    plt.title('Potential derivative dV/dR')
+    plt.title('derivative of the potential')
     plt.grid(False)
     plt.legend()
     plt.tight_layout()
@@ -75,21 +76,21 @@ def plot_refined_solution(sol, R_target, label_R0=None):
     """
 
     plt.figure()
-    label = f'R(x), R0={label_R0:.3f}' if label_R0 is not None else 'R(x)'
-    plt.plot(sol.t, sol.y[2], label=label)
+    label = f'R(x), R0={label_R0:.3f}' if label_R0 is not None else 'R(x)'  # this is to get the legend indicating the function being plotted, as well as the corresponding component of the initial condition used in the numerical solution
+    plt.plot(sol.t, sol.y[2], label=label)  # to access what's going to be plotted
     plt.axhline(R_target, linestyle=':', color='black',
-                label=f'R_target={R_target:.3f}')
-    plt.xscale('log')
-    plt.xlabel('Distance x')
+                label=f'R_target={R_target:.3f}')  # this is what we'd like our solution to approach (considering the De Sitter condition)
+    plt.xscale('log')  # to better understand/visualize the behaviour of the solution
+    plt.xlabel('x (distance)')
     plt.ylabel('R(x)')
-    plt.title('Refined solution for R')
+    plt.title('refined solution for "R(x)"')
     plt.grid(False)
     plt.legend()
     plt.tight_layout()
     plt.show()
 
-    # print final integration point
+    # and to print the final integration point we write
     final_x = sol.t[-1]
     final_R = sol.y[2, -1]
 
-    print(f"Integration reached (x={final_x:.3f}, R={final_R:.3f})")
+    print(f'the integration reached the point "(x={final_x:.3f}, R={final_R:.3f})"')
