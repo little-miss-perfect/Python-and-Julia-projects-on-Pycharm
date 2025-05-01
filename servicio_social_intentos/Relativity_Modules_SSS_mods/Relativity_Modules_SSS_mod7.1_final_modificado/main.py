@@ -8,12 +8,12 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "lambda_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
-# define the raw bracket we’d like to try
-proposed_bracket = (0.1, 200)
+# define the interval we’d like to try and search for the critical points of the potential associated to a minimum
+proposed_bracket = (-10, 200)  #though we should state that: we haven't had the need to search in an interval "bigger than" the interval "(-1, 15)". but you never know...
 
 if chosen_scenario == "alpha_L_L_M":
     start = -R_star + 0.1  # we need to only consider values of "R" such that "-R_star < R" (assuming that "0 < R_star")
@@ -23,7 +23,7 @@ if chosen_scenario == "alpha_L_L_M":
     safe_bracket = (
         max(proposed_bracket[0], -R_star + eps),
         proposed_bracket[1]  # the upper end of the interval stays the same
-    )
+                        )
 
 else:
     start = -1  # defined as such because we haven't encountered a potential with critical points less than "-1"
@@ -32,7 +32,7 @@ else:
 # TODO 1.2: defining some variables
 x_max = 1e12  # this shows up to where we truncate our "infinite" domain (although we haven't really had the need to go further than "10" to find a decent initial condition)
 stop, num_points = 1e4, 50000  # for our "to do 4" (try and keep them in the same order of magnitude; "num_points" is to keep the interval "dense")
-# although, for the previous line of code, we haven't had the need to search in an interval "bigger than" the interval "(-1, 15)", so maybe we could
+# although, for the previous line of code, we haven't had the need to search in an interval "bigger than" the interval "(-1, 15)"
 
 # TODO 2: define the derivative functions to be used
 d_f = DerivativeFunctions(scene.f, scene.f1, scene.f2, scene.f3, scene.f32, scene.rho, scene.xrho, scene.T)
