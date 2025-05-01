@@ -54,7 +54,7 @@ stop = R_for_min_of_potential + 2  # defined as such because we haven't encounte
 # TODO 4.1: plot "V" vs "R"
 #           (notice how up until now, all potential functions have an "upside down m" shape.
 #            to see this, increase the size of the interval by decreasing the "start" and increasing the "stop" variables)
-plot_potential(p_d, start, stop, num_points=1000, R_ref=0)
+plot_potential(p_d, start, stop, num_points=1000)
 
 # TODO 4.2: plot "dV/dR" vs "R"
 R_vals    = np.linspace(start, stop, num_points)
@@ -105,5 +105,5 @@ sol = solve_ivp(
 plot_refined_solution(sol, R_for_min_of_potential, optimal_R0)
 
 print(f"\n our solution approaches a value that is about"
-      f" '{R_for_min_of_potential - sol.y[2, -1]:.9f}' units away"
+      f" '{abs(R_for_min_of_potential - sol.y[2, -1]):.9f}' units away"
       f" from the target value at infinity \n")
