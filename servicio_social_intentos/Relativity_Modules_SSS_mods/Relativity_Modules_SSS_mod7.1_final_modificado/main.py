@@ -8,7 +8,7 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "lambda_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
