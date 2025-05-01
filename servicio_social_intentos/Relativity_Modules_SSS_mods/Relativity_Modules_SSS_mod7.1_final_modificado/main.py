@@ -90,7 +90,8 @@ r0_refined[2] = optimal_R0
 
 # TODO 6: plot the "refinement"
 
-# and now we compute the solution with the refined "R0"
+# and now that we found a better initial value,
+# we compute the solution with the refined "R0"
 sol = solve_ivp(
     fun    = F,
     t_span = (0, x_max),
