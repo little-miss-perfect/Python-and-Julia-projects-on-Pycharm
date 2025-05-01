@@ -1,0 +1,37 @@
+"Hu_Sawicki"
+
+
+
+
+
+ the nontrivial minimum of the potential is at "R = 8.903" 
+
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:33: RuntimeWarning: overflow encountered in scalar multiply
+  sum11 = m * (x ** 2) * (self.f(R) - R * self.f1(R) + 2 * kappa * P)
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:34: RuntimeWarning: overflow encountered in scalar multiply
+  sum12 = m * (x ** 2) * (self.f(R) - R * self.f1(R))
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:56: RuntimeWarning: overflow encountered in scalar multiply
+  coeff3 = (m * (x ** 2)) / 3
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:85: RuntimeWarning: invalid value encountered in scalar add
+  (sum1 +
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:84: RuntimeWarning: overflow encountered in scalar multiply
+  return (coeff1 *
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:51: RuntimeWarning: overflow encountered in scalar multiply
+  return coeff * (sum12 + sum2)
+C:\Users\morni\PycharmProjects\servicio_social_intentos\Relativity_Modules_SSS_mods\Relativity_Modules_SSS_mod7.1_final_modificado\shared\derivative_functions.py:51: RuntimeWarning: invalid value encountered in scalar add
+  return coeff * (sum12 + sum2)
+Step 1: R0 = 12371.572599817806, Bracket: (-0.312500000000, 18896.000000000000)
+Step 2: R0 = 12371.572599817802, Bracket: (12182.609474817806, 12560.535724817806)
+Step 3: R0 = 12371.572599817806, Bracket: (12371.194673567803, 12371.950526067802)
+Step 4: R0 = 12371.572599817802, Bracket: (12371.572524232555, 12371.572675403057)
+Step 5: R0 = 12371.572599817806, Bracket: (12371.572599816291, 12371.572599819314)
+Step 6: same‐sign bracket—using last R0 = 12371.572599817806
+
+ Final R0: 12371.572599817805894 
+
+Integration reached (x=1.491, R=6.333)
+
+ our solution approaches a value that is about '2.569361266' units away from the target value at infinity 
+
+
+Process finished with exit code 0

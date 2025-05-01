@@ -1,0 +1,21 @@
+"lambda_L_L_M"
+
+
+
+
+
+ the nontrivial minimum of the potential is at "R = 1.984" 
+
+Step 1: R0 = 2.289814180943, Bracket: (-10.000000000000, 200.000000000000)
+Step 2: R0 = 2.289814636146, Bracket: (0.189814180943, 4.389814180943)
+Step 3: R0 = 2.289814388593, Bracket: (2.285614636146, 2.294014636146)
+Step 4: residuals tiny—stopping at R0 = 2.289814388593
+
+ Final R0: 2.289814388592608 
+
+Integration reached (x=2.463, R=1.984)
+
+ our solution approaches a value that is about '0.000000087' units away from the target value at infinity 
+
+
+Process finished with exit code 0
