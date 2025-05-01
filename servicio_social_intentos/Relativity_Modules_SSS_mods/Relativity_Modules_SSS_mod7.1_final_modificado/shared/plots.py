@@ -43,4 +43,4 @@ def plot_refined_solution(sol, R_target, label_R0=None):
     # Print final integration point
     final_x = sol.t[-1]
     final_R = sol.y[2, -1]
-    print(f"Integration reached (x={final_x:.3e}, R={final_R:.3e})")
+    print(f"Integration reached (x={final_x:.3f}, R={final_R:.3f})")
