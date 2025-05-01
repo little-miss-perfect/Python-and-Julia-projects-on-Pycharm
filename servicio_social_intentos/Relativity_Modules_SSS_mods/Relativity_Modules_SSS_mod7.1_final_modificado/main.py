@@ -8,7 +8,7 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "lambda_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
@@ -70,7 +70,7 @@ initial_bracket = find_valid_bracket(
     target         = R_for_min_of_potential,
     initial_bracket= safe_bracket,  # the interval where we decide to "refine" the value of "R0"
     x_max          = x_max
-)
+                                        )
 
 optimal_R0 = refine_R0(
     base_r0        = scene.r0,
@@ -80,12 +80,12 @@ optimal_R0 = refine_R0(
     x_max          = x_max,
     refinement_steps= 10,
     tol_residual=1e-6
-)
+                            )
 
 print(f"\n Final R0: {optimal_R0:.15f} \n")
 
 # now let's plot the final solution
-r0_refined = scene.r0.copy()  # this is to not modify the current solution
+r0_refined = scene.r0.copy()  # this is to not modify the current solution (it's just good practice)
 r0_refined[2] = optimal_R0
 
 # TODO 6: plot the "refinement"
@@ -99,7 +99,11 @@ sol = solve_ivp(
     method = 'DOP853',
     rtol   = 1e-6,
     atol   = 1e-9
-)
+                    )
 
 # and, finally, we plot "R(x)"
 plot_refined_solution(sol, R_for_min_of_potential, optimal_R0)
+
+print(f"\n our solution approaches a value that is about"
+      f" '{R_for_min_of_potential - sol.y[2, -1]:.9f}' units away"
+      f" from the target value at infinity \n")
