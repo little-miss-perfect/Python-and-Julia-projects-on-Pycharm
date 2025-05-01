@@ -8,7 +8,7 @@ import numpy as np
 
 
 # TODO 1: choose a scenario
-chosen_scenario = "Hu_Sawicki"  # we need to define this variable in order to make a comparison (between strings)
+chosen_scenario = "lambda_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
 scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
 
 # TODO 1.1: careful with "alpha_L_L_M"
@@ -26,12 +26,13 @@ if chosen_scenario == "alpha_L_L_M":
     )
 
 else:
-    start = -0.05e1
+    start = -1  # defined as such because we haven't encountered a potential with critical points less than "-1"
     safe_bracket = proposed_bracket
 
 # TODO 1.2: defining some variables
-x_max = 1e12  # this shows up to where we truncate our "infinite" domain
-stop, num_points = 0.15e2, 500  # for our "to do 4"
+x_max = 1e12  # this shows up to where we truncate our "infinite" domain (although we haven't really had the need to go further than "10" to find a decent initial condition)
+stop, num_points = 1e4, 50000  # for our "to do 4" (try and keep them in the same order of magnitude; "num_points" is to keep the interval "dense")
+# although, for the previous line of code, we haven't had the need to search in an interval "bigger than" the interval "(-1, 15)", so maybe we could
 
 # TODO 2: define the derivative functions to be used
 d_f = DerivativeFunctions(scene.f, scene.f1, scene.f2, scene.f3, scene.f32, scene.rho, scene.xrho, scene.T)
@@ -43,12 +44,16 @@ dVdR = p_d.dVdR
 
 try:
     R_for_min_of_potential = find_global_minimum(p_d, start, stop, num_points)  # "start" depends on the chosen "scene"
-    print(f'the nontrivial minimum of the potential is at "R = {R_for_min_of_potential:.5f}"')
+    print(f'\n the nontrivial minimum of the potential is at "R = {R_for_min_of_potential:.3f}" \n')  # by "nontrivial minimum" we actually mean the extrema corresponding to a nonzero critical point (because that's how we were told to find this extremum)
 except Exception as e:
     print(f"our root finding failed: {e}")
     exit(1)
 
+stop = R_for_min_of_potential + 2  # defined as such because we haven't encountered a potential with more critical points after "R_for_min_of_potential" (which, up until now, has corresponded to the "maximum" of the set of critical points found)
+
 # TODO 4.1: plot "V" vs "R"
+#           (notice how up until now, all potential functions have an "upside down m" shape.
+#            to see this, increase the size of the interval by decreasing the "start" and increasing the "stop" variables)
 plot_potential(p_d, start, stop, num_points=1000, R_ref=0)
 
 # TODO 4.2: plot "dV/dR" vs "R"
@@ -77,7 +82,7 @@ optimal_R0 = refine_R0(
     tol_residual=1e-6
 )
 
-print(f"\n Final R0: {optimal_R0:.15f}")
+print(f"\n Final R0: {optimal_R0:.15f} \n")
 
 # now let's plot the final solution
 r0_refined = scene.r0.copy()  # this is to not modify the current solution
