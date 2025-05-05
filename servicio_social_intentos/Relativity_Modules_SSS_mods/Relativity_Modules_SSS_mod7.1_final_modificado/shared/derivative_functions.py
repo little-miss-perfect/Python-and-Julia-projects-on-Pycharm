@@ -3,7 +3,7 @@ from scipy.optimize import brentq
 from scipy.integrate import solve_ivp
 
 
-# TODO 1: define "dr/dx = F(x, r)" and the numerical method (in a class)
+# TODO 1: define "dr/dx = F(x, r)" (in a class)
 class DerivativeFunctions:
     '''
     this must be defined as a class, since
@@ -177,18 +177,16 @@ class DerivativeFunctions:
 
     def F(self, x, r):
         """
-        the vectorized derivative used in "solve_ivp"
-         given by "dr/dx = F(x, r)". it returns "dr/dx".
-        where has the form "r = [n, m, R, R1, P, Ms, Mb]"
-
-        returns "F(x, r)"
+        this is the vectorized derivative used in "solve_ivp"
+        given by "dr/dx = F(x, r)",
+        where "r" has the form "r = [n, m, R, R1, P, Ms, Mb]"
         """
 
         n, m, R, R1, P, Ms, Mb = r  # "unpack" the elements of the array "r"
 
-        dr = np.zeros_like(r, dtype=float)
+        dr = np.zeros_like(r, dtype=float)  # create an empty array of the same size as "r" whose entries have the data type "float"
 
-        # next we define the components of "F(x, r)"
+        # next we define the components of "F(x, r)" (by "filling in" the empty array "dr" defined above)
         dr[0] = self.n1(x, n, m, R, R1, P, Ms, Mb)
         dr[1] = self.m1(x, n, m, R, R1, P, Ms, Mb)
         dr[2] = self.DR(x, n, m, R, R1, P, Ms, Mb)
@@ -199,10 +197,23 @@ class DerivativeFunctions:
 
         return dr
 
+# TODO 2: define the numerical method (in a class)
 class ShootingSolver:
     '''
-    a class to define a "shooting method"
+    this is a class to define a "shooting" method solver
+    that adjusts the initial Ricci scalar "R0" in a way that
+    the solution hits a specific boundary value at "x = x_max"
+
+    Attributes:
+        F           : callable "F(x, r)" defining "dr/dx = F(x, r)"
+        base_r0     : 1D ndarray, the base initial‐condition vector "[n, m, R, R1, P, Ms, Mb]"
+        t_span      : tuple "(0, x_max)" representing the integration interval in "x"
+        method      : str, the SciPy "solve_ivp" method to use (e.g. 'DOP853')
+        rtol, atol  : floats, solver tolerances
+        component   : int, which entry of "r" to adjust ("2" corresponds to "R")
+        target      : float, desired value of "r[component]" at "x = x_max"
     '''
+
     # first, we initialize the object
     def __init__(self, F, base_r0, t_span, target,  # the target parameter is the "R0" value we want to tend to (this is the value at which the potential reaches a nontrivial minimum)
                  method='DOP853', rtol=1e-5, atol=1e-8):
@@ -216,21 +227,24 @@ class ShootingSolver:
         self.component = 2  # the component of "r" we're analyzing
         self.target = target  # here we initialize the "target"
 
-    def _residual(self, R0_guess):
+    def residual_method(self, R0_guess):
         '''
-        Given a guess for the component of the
+        given a guess for the component of the
         initial value of "r[2]", this computes
         "how far off" the integrated solution is from
         hitting the target at the outer boundary.
 
         we'd like for this function to return something
         very close to zero (because of what it returns)
+
+        :param R0_guess: a "guess" of the initial value of "r[2]"
+        :return diff: the difference "R_final - R_target" (which we'd like to be as close to zero as possible)
         '''
 
-        r0 = np.copy(self.base_r0)
+        r0 = np.copy(self.base_r0)  # we copy for the same reason stated above
         r0[self.component] = R0_guess  # the component is set in the constructor of this class
 
-        # now we solve or system of equations with this proposed value
+        # now we solve our system of equations with this proposed value
         sol = solve_ivp(
             fun=self.F,
             t_span=self.t_span,
@@ -240,13 +254,15 @@ class ShootingSolver:
             atol=self.atol
         )
 
-        # next keep in mind that "sol.y" is a "2D array", that is
+        # next keep in mind that "sol.y" is a "2D array" (like a matrix), that is,
         # each row is one component of the solution, and
-        # each column is a value at a grid point
-        # (the grid is defined by the steps taken during the integration -using the independent variable "x").
-        return sol.y[self.component, -1] - self.target  # "sol.y[self.component, -1]" is the final value of the component considered here (i.e. "2")
-        # if this returns zero, it means that given an initial value "R0_guess"
-        # we ended up exactly at your target (which is what we want).
+        # each column is a value at a "grid point"
+        # (the "grid" is defined by the steps taken during the integration -using the independent variable "x").
+        diff = sol.y[self.component, -1] - self.target  # "sol.y[self.component, -1]" is the final value of the component considered here (i.e. "2")
+        return diff
+        # if this returns zero, it means that given an initial value
+        # "R0_guess"
+        # we ended up exactly at our target (which is what we want).
         # but a positive value means we overshot,
         # and a negative value means undershot.
 
@@ -254,26 +270,93 @@ class ShootingSolver:
         '''
         this method finds, via bisection (using Brent’s method),
         the value of "R0_guess" within our bracket
-        that makes the residual zero.
-        :param bracket: a tuple "(a, b)" such that "_residual(a)" and "_residual(b)" have opposite signs (it represents an interval).
-        :param maxiter: the number of iterations Brent’s method will try.
+        that makes the residual zero
+
+        :param bracket: a tuple "(a, b)" such that "residual_method(a)" and "residual_method(b)"
+                        have opposite signs; since we know we haven't yet found the
+                        correct initial value, then the method "residual_method"
+                        in the interval "(a, b)" must have a zero (the value we're looking for).
+                        that's why we know they have opposite signs
+        :param maxiter: the number of iterations Brent’s method will attempt
         :return: the best estimate of the initial Ricci scalar "R0" that "shoots" the solution to our desired boundary value
         '''
+
         root, result = brentq(
-            self._residual,
+            self.residual_method,  # remember, we want "R_final - R_target" to be as close to zero as possible; so we'll look for the zero of this function defined by the method "residual_method"
             bracket[0],
             bracket[1],
             maxiter=maxiter,
-            full_output=True  # gives us a result object with convergence information
+            full_output=True  # this gives us a result object with convergence information
         )
 
         if not result.converged:
 
-            raise RuntimeError(f"convergence failed: {result.flag}")
+            raise RuntimeError(f"our root search did not converge: {result.flag}")
 
-        return root
+        return root  # the initial value we're looking for
 
-# TODO 2: to refine the initial guess
+# TODO 3: refine the initial guess
+def find_valid_bracket(F, base_r0, target, initial_bracket, x_max, method='DOP853', rtol=1e-5, atol=1e-8, expansion_factor=2.0, max_expansions=10):
+    """
+    this function expands or contracts an initial guess bracket "[a, b]" until the shooting‐method
+    residuals at the endpoints have opposite signs, which is required for
+    root‐finding algorithms like Brent’s method (which we're mainly using)
+
+    :param F               : callable "F(x, r)" defining "dr/dx = F(x, r)"
+    :param base_r0         : ndarray, base initial‐condition vector (of length "7")
+    :param target          : float, desired boundary value for "r[2]" at "x = x_max"
+    :param initial_bracket : tuple(float, float), initial interval "(a, b)",
+                             where we'd like to search the value of the initial condition,
+                             where we hope "residual(a)" and "residual(b)" have opposite signs
+    :param x_max           : float, the upper limit of the integration domain
+    :param method          : str, name of the integrator to use (passed to "solve_ivp")
+    :param rtol            : float, relative tolerance for the solver
+    :param atol            : float, absolute tolerance for the solver
+    :param expansion_factor: float, factor by which to expand or contract the bracket in each iteration
+    :param max_expansions  : int, maximum number of expansion/contraction attempts
+    :return: tuple (a, b)   where residual(a) and residual(b) have opposite signs
+    :raises ValueError     if no valid bracket is found within max_expansions
+    """
+
+    solver = ShootingSolver(
+        F       = F,
+        base_r0 = base_r0,
+        target  = target,
+        t_span  = (0, x_max),
+        method  = method,
+        rtol    = rtol,
+        atol    = atol
+    )
+
+    # if the residual returns zero, it means that given an initial value
+    # we ended up exactly at our target (which is what we want).
+    # but a positive value means we overshot,
+    # and a negative value means undershot.
+    a, b = initial_bracket  # we first unpack the interval where we'd like to begin searching
+    f_a = solver.residual_method(a)
+    f_b = solver.residual_method(b)
+
+    if np.sign(f_a) != np.sign(f_b):  # different signs mean we still need to refine the initial value
+
+        return (a, b)  # so we're okay with the current selected interval
+
+    for i in range(max_expansions):
+
+        a = a / expansion_factor
+        b = b * expansion_factor + 10**i
+        f_a = solver.residual_method(a)
+        f_b = solver.residual_method(b)
+
+        if np.sign(f_a) != np.sign(f_b):  # different signs mean we still need to refine the initial value
+
+            return (a, b)  # so we're okay with the current selected interval
+
+    # but... if no interval can be found, then we print this in the output
+    raise ValueError(
+        f'no valid bracket was found after "{max_expansions}" expansions. '
+        f'the last residuals were: f({a})={f_a:.3e}, f({b})={f_b:.3e}'
+    )
+
 def refine_R0(base_r0, target_R, initial_bracket, F, x_max, refinement_steps=9, tol_residual=1e-6):
     """
     its purpose is to "refine" the shooting‐method bracket
@@ -281,8 +364,9 @@ def refine_R0(base_r0, target_R, initial_bracket, F, x_max, refinement_steps=9, 
     if both endpoint residuals ("solver._residual" at "a" and at "b")
     ever fall below "tol_residual",
     it stops.
-    if the bracket ever becomes "same‐signed",
+    if the bracket ever becomes "same‐signed" (which means we can't find a root in the current interval),
     it returns the last root estimate.
+    else, it solves for a new root and shrinks/expands the bracket
 
     :param base_r0: the "initial condition" vector of length "7"
     :param target_R: the "target condition" (the desired boundary value for the component of index "2" at "x = x_max")
@@ -299,6 +383,7 @@ def refine_R0(base_r0, target_R, initial_bracket, F, x_max, refinement_steps=9, 
                          so we aim to get something "close enough" to zero)
     """
 
+    # we first create an object with the parameters of this method
     solver = ShootingSolver(
         F       = F,
         base_r0 = base_r0,
@@ -308,24 +393,33 @@ def refine_R0(base_r0, target_R, initial_bracket, F, x_max, refinement_steps=9, 
         atol    = 1e-8,
     )
 
+    # then we unpack the bracket's endpoints
     a, b        = initial_bracket
+
+    # next, "current_R0" starts as "None" to mark that "no root has been found yet".
+    # after the first call to "solver.solve()", it will hold the last good estimate.
+    # we use this to:
+    #  1) fall back to the midpoint -only on the very first iteration- if both ends are already within the specified tolerance
+    #  2) recover the last estimate if the bracket ever becomes same‐signed later
     current_R0  = None
 
-    for step in range(refinement_steps):
+    # next comes the iterative refinement
+    for step in range(refinement_steps):  # this is "how many times we'll refine" our initial condition
+    # remember that indexing in Python starts from zero
 
-        f_low  = solver._residual(a)
-        f_high = solver._residual(b)
+        f_low  = solver.residual_method(a)
+        f_high = solver.residual_method(b)
 
-        # 1) If both ends are within tolerance, accept current_R0 / midpoint:
+        # 1) if both boundary values of the current interval are already within the given tolerance, accept the "current_R0" value or take the midpoint of the current interval
         if abs(f_low) < tol_residual and abs(f_high) < tol_residual:
 
             result = current_R0 if current_R0 is not None else 0.5*(a + b)
 
-            print(f"Step {step+1}: residuals tiny—stopping at R0 = {result:.12f}")
+            print(f'''step "{step+1}": the residuals are pretty small. let's stop the refinement at "R0 = {result:.12f}"''')
 
             return result
 
-        # 2) If bracket is same‐signed at any point, and we have a last estimate, return it:
+        # 2) if the bracket has same‐signed residuals (which means we can't use a root finding method), we'll return the last known estimate
         if np.sign(f_low) == np.sign(f_high):
 
             if current_R0 is not None:
@@ -338,55 +432,43 @@ def refine_R0(base_r0, target_R, initial_bracket, F, x_max, refinement_steps=9, 
 
                 raise ValueError(f"Invalid initial bracket: [{f_low:.3e}, {f_high:.3e}]")
 
-        # 3) Otherwise find the new root and tighten the bracket
+        # 3) otherwise, we'll find the new root and "tighten" (decrease the "size" of) the current bracket
         current_R0 = solver.solve(bracket=(a, b))
 
         print(f"Step {step+1}: R0 = {current_R0:.12f}, Bracket: ({a:.12f}, {b:.12f})")
 
-        delta = 10**(-step-2) * (b - a)
-        a     = max(current_R0 - delta, a * 0.8)
-        b     = min(current_R0 + delta, b * 1.2)
+        # and to define a shrinking/expanding window size
+        # around our latest root estimate,
+        # assuming that the interval is in "a positive domain",
+        # we'll do the following:
 
-    # If we finish all steps, return the last estimate
+        # on each iteration we'll try to shrink the bracket tightly around our new best root guess,
+        # using a "shrinking delta" that gets tinier each time (i.e. on each iteration).
+        #
+        # but by pairing that with a "fixed‐factor" expansion (a factor of "0.8" on the left, and a factor of "1.2" on the right),
+        # we guarantee that the bracket can grow a bit if our "shrinking" (from one endpoint -or maybe both)
+        # would accidentally exclude the actual root.
+        #
+        # so this hybrid "shrink‐but‐never‐too‐tight" strategy helps us keep Brent’s method "usable"
+        # by always enclosing a "sign change" (which is what the method needs),
+        # while still converging in around our estimate.
+
+        # so, after one iteration, we'll start at "1%"
+        # of the bracket's width and shrink it by a factor
+        # of "10" in each iteration
+        delta = 10 ** (-(step + 2)) * (b - a)  # remember that indexing starts at "0" (so in the first iteration we have "0 + 2")
+
+        # to compute the new left endpoint:
+        #   1) "current_R0 - delta" shrinks (from the left) "around the root"
+        #   2) "a * 0.8" allows a "20%" slip outward from where it was before (it does this if shrinking would "cut the root out of the interval"). that is, it moves the left endpoint "a bit further to the left"
+        # and we then take (of the two) the closest one to the root, to ensure the root remains bracketed by computing the following
+        a = max(current_R0 - delta, a * 0.8)
+
+        # to compute the new right endpoint:
+        #   1) "current_R0 + delta" shrinks (from the right) "around the root"
+        #   2) "b * 1.2" allows a "20%" slip outward from where it was before. that is, it moves the right endpoint "a bit further to the right"
+        # take (of the two) the closest one to the root, to keep the bracket valid, by computing the following
+        b = min(current_R0 + delta, b * 1.2)
+
+    # if we finish all the refinement steps, we'll return the last estimate
     return current_R0
-
-def find_valid_bracket(F, base_r0, target, initial_bracket, x_max, method='DOP853', rtol=1e-5, atol=1e-8, expansion_factor=2.0, max_expansions=10):
-    """
-    Given an ODE F, initial state base_r0 (whose index 2 we adjust),
-    and a target value, expand or contract the bracket until
-    f(a) and f(b) have opposite sign. Returns (a, b) or raises.
-    """
-
-    solver = ShootingSolver(
-        F       = F,
-        base_r0 = base_r0,
-        target  = target,
-        t_span  = (0, x_max),
-        method  = method,
-        rtol    = rtol,
-        atol    = atol
-    )
-
-    a, b = initial_bracket
-    f_a = solver._residual(a)
-    f_b = solver._residual(b)
-
-    if np.sign(f_a) != np.sign(f_b):
-
-        return (a, b)
-
-    for i in range(max_expansions):
-
-        a = a / expansion_factor
-        b = b * expansion_factor + 10**i
-        f_a = solver._residual(a)
-        f_b = solver._residual(b)
-
-        if np.sign(f_a) != np.sign(f_b):
-
-            return (a, b)
-
-    raise ValueError(
-        f"No valid bracket found after {max_expansions} expansions. "
-        f"Last residuals: f({a})={f_a:.3e}, f({b})={f_b:.3e}"
-    )
