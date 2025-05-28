@@ -17,7 +17,7 @@ scenarios_map = {
     "lambda_L_L_M": "scenarios.lambda_L_L_M.scenario_data",
                     }
 
-chosen_scenario = "Hu_Sawicki"
+chosen_scenario = "lambda_L_L_M"
 
 
 # TODO: import the corresponding modules
@@ -123,7 +123,7 @@ start_int = timeit.default_timer()
 # 12371.572599817805894 : 6.332409400491171 : 8.902634203309109
 # 171: 6.331464091245532 : 6.331464091245532 : 8.902634203309109
 
-r0[2] = 171
+r0[2] = 170
 # newest values go from left to right (approaching the last root)
 
 # para H-S usa estos valores # 12371.572599817799 # these values should approach "8.902634203309109"
