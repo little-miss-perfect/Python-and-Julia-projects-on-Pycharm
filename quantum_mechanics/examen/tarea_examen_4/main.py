@@ -12,11 +12,11 @@ def phi_0(x):
     factor = (m * omega / (np.pi * h_bar)) ** 0.25
     return factor * np.exp(-(m * omega * x ** 2) / (2 * h_bar))
 
-# la probabilidad en la región "|x| > x_max"
-def integrand(x):
-    return np.abs(phi_0(x))**2
+# la función de densidad de probabilidad
+def density(x):
+    return np.abs(phi_0(x))**2  # como la función de onda es un real, tomamos el valor absoluto
 
 # usamos "quad" porque... me topé está función en mi servicio social y aparte deja "integrar hasta infinito"
-integral, error = quad(integrand, x_max, np.inf)
+integral, error = quad(density, x_max, np.inf)  # la integración en la región "|x| > x_max"
 P = 2 * integral  # pero la probabilidad era la suma de esta misma integral, por eso multiplicamos por "2"
 print(P)
