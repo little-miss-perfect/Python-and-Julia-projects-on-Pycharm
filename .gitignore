@@ -1,0 +1,10 @@
+# ignore all Excel in estado_de_cuenta_bbva
+estado_de_cuenta_bbva/*.xlsx
+
+# ignore the whole servicio_social_intentos tree…
+servicio_social_intentos/*
+
+# …except keep the one documented file
+!servicio_social_intentos/Relativity_Modules_SSS_mods/
+servicio_social_intentos/Relativity_Modules_SSS_mods/*
+!servicio_social_intentos/Relativity_Modules_SSS_mods/Relativity_Modules_SSS_mod7.1_final_documented
