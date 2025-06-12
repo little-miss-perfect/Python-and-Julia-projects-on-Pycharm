@@ -28,4 +28,9 @@ See the [LICENSE](LICENSE) file for details.
 
 ## Program Flowchart
 
+<!-- Embedded diagram -->
 ![Program flowchart](docs/flowchart.svg)
+
+<!-- Link to the editable source -->
+> If you want to tweak the flowchart, see [docs/flowchart.md](docs/flowchart.md).
+
