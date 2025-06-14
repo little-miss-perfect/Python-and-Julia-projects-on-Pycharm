@@ -163,7 +163,111 @@ turtle.shape(image)
 
 
 
-# what about capital letters even though you wrote the correct state? (i.e. these states' names have "title case")
+# # what about capital letters even though you wrote the correct state? (i.e. these states' names have "title case")
+#
+# data = pandas.read_csv("50_states.csv")
+# all_states = data.state.to_list()
+# guessed_states = []
+#
+# while len(guessed_states) < len(all_states):
+#     answer_state = screen.textinput(title=f"{len(guessed_states)}/{len(all_states)} States Correct",
+#                                     prompt="What's another state's name?").title()  # this makes the first letter a capital letter (and it makes every other letter a lowercase letter?)
+#     print(answer_state)
+#
+#     if answer_state in all_states:
+#         guessed_states.append(answer_state)
+#
+#         t = turtle.Turtle()
+#         t.hideturtle()
+#         t.penup()
+#         state_data = data[data.state == answer_state]  # it'll get the row where the state equals the answer_state
+#         t.goto(state_data.x.item(), state_data.y.item())
+#         t.write(answer_state)
+#
+# screen.exitonclick()
+
+
+
+
+
+
+# # let's write an "exit code"
+#
+# data = pandas.read_csv("50_states.csv")
+# all_states = data.state.to_list()
+# guessed_states = []
+#
+# while len(guessed_states) < len(all_states):
+#     answer_state = screen.textinput(title=f"{len(guessed_states)}/{len(all_states)} States Correct",
+#                                     prompt="What's another state's name?").title()  # this makes the first letter a capital letter (and it makes every other letter a lowercase letter?)
+#     print(answer_state)
+#
+#     if answer_state == "Exit": # it has to have the first letter as a capital letter since answer_state is "title cased"
+#         break  # this ends the while loop,
+#                # and since we deleted "screen.exitonclick()", then it will end the game and exit the window
+#
+#     if answer_state in all_states:
+#         guessed_states.append(answer_state)
+#
+#         t = turtle.Turtle()
+#         t.hideturtle()
+#         t.penup()
+#         state_data = data[data.state == answer_state]  # it'll get the row where the state equals the answer_state
+#         t.goto(state_data.x.item(), state_data.y.item())
+#         t.write(answer_state)
+#
+# # states_to_learn.csv
+
+
+
+
+
+
+
+
+
+# # how do we write a list of the missing (the ones we didn't guess) states?
+#
+# data = pandas.read_csv("50_states.csv")
+# all_states = data.state.to_list()
+# guessed_states = []
+#
+# while len(guessed_states) < len(all_states):
+#     answer_state = screen.textinput(title=f"{len(guessed_states)}/{len(all_states)} States Correct",
+#                                     prompt="What's another state's name?").title()  # this makes the first letter a capital letter (and it makes every other letter a lowercase letter?)
+#     print(answer_state)
+#
+#     if answer_state == "Exit":
+#         missing_states = []
+#         for state in all_states:
+#             if state not in guessed_states:
+#                 missing_states.append(state)
+#         print(missing_states)
+#         break
+#
+#     if answer_state in all_states:
+#         guessed_states.append(answer_state)
+#
+#         t = turtle.Turtle()
+#         t.hideturtle()
+#         t.penup()
+#         state_data = data[data.state == answer_state]  # it'll get the row where the state equals the answer_state
+#         t.goto(state_data.x.item(), state_data.y.item())
+#         t.write(answer_state)
+#
+
+
+
+
+
+
+
+
+
+
+
+
+# how do we turn the list of missing_states into a ".csv" file?
 
 data = pandas.read_csv("50_states.csv")
 all_states = data.state.to_list()
@@ -173,6 +277,15 @@ while len(guessed_states) < len(all_states):
     answer_state = screen.textinput(title=f"{len(guessed_states)}/{len(all_states)} States Correct",
                                     prompt="What's another state's name?").title()  # this makes the first letter a capital letter (and it makes every other letter a lowercase letter?)
     print(answer_state)
+
+    if answer_state == "Exit":
+        missing_states = []
+        for state in all_states:
+            if state not in guessed_states:
+                missing_states.append(state)
+        new_data = pandas.DataFrame(missing_states)  # and we just made a one column dataframe
+        new_data.to_csv("states_to_learn.csv")  # to make the dataframe into a ".csv" file
+        break
 
     if answer_state in all_states:
         guessed_states.append(answer_state)
@@ -184,4 +297,4 @@ while len(guessed_states) < len(all_states):
         t.goto(state_data.x.item(), state_data.y.item())
         t.write(answer_state)
 
-screen.exitonclick()
+# states_to_learn.csv
