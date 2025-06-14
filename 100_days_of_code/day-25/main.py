@@ -29,68 +29,96 @@ import csv
 #             temperatures.append(int(row[1]))
 #     print(temperatures)
 
-import pandas
-
-# data = pandas.read_csv("weather_data.csv")
-# print(data)  # this is a dataframe (the whole "table")
-
-# data = pandas.read_csv("weather_data.csv")
-# print(data["temp"])
-
-# data = pandas.read_csv("weather_data.csv")
-# print(type(data))
-# #print(data["temp"])  # this is a "series" (just a column)
-
-data = pandas.read_csv("weather_data.csv")
-#print(type(data))
-#print(type(data["temp"]))
-
-# data_dict = data.to_dict()
-# print(data_dict)
+# import pandas
 #
+# # data = pandas.read_csv("weather_data.csv")
+# # print(data)  # this is a dataframe (the whole "table")
+#
+# # data = pandas.read_csv("weather_data.csv")
+# # print(data["temp"])
+#
+# # data = pandas.read_csv("weather_data.csv")
+# # print(type(data))
+# # #print(data["temp"])  # this is a "series" (just a column)
+#
+# data = pandas.read_csv("weather_data.csv")
+# #print(type(data))
+# #print(type(data["temp"]))
+#
+# # data_dict = data.to_dict()
+# # print(data_dict)
+# #
+# # # temp_list = data["temp"].to_list()
+# # # print(temp_list)
+# #
 # # temp_list = data["temp"].to_list()
 # # print(temp_list)
+# #
+# # # average = sum(temp_list) / len(temp_list)  # "sum" sums up all the elements in a given list, right?
+# # # print(average)
+# #
+# # print(data["temp"].mean())  # or get the mean in one line
+# # print(data["temp"].max())
+# #
+# # # get data in columns
+# # print(data["condition"])
+# # print(data.condition)
 #
-# temp_list = data["temp"].to_list()
-# print(temp_list)
+# # # get data in row
+# # print(data[data.day == "Monday"])  # remember that "data[data.day]" is the same as "data[data["day"]]
+# # # print(data[data.temp == data["temp"].max()])
+# # print(data[data.temp == data.temp.max()])
 #
-# # average = sum(temp_list) / len(temp_list)  # "sum" sums up all the elements in a given list, right?
-# # print(average)
+# # monday = data[data.day == "Monday"]  # a row
+# # # but how do we access the values under different columns in this row?
+# # print(monday.condition)
 #
-# print(data["temp"].mean())  # or get the mean in one line
-# print(data["temp"].max())
+# # monday = data[data.day == "Monday"]
+# # monday_temp = monday.temp[0]
+# # monday_temp_F = monday_temp * 9/5 + 32
+# # print(monday_temp_F)
 #
-# # get data in columns
-# print(data["condition"])
-# print(data.condition)
+# # monday = data[data.day == "Monday"]
+# # monday_temp = monday.temp[0]
+# # monday_temp_F = monday_temp * 9/5 + 32
+# # print(monday_temp_F)
+#
+# # create a dataframe from scratch
+# data_dict = {
+#     "students": ["Amy", "James", "Angela"],
+#     "scores": [76, 56, 65]
+# }
+#
+# # data = pandas.DataFrame(data_dict)
+# # print(data)
+#
+# data = pandas.DataFrame(data_dict)
+# data.to_csv("new_data.csv")  # its input is the path to which I want to save this file
 
-# # get data in row
-# print(data[data.day == "Monday"])  # remember that "data[data.day]" is the same as "data[data["day"]]
-# # print(data[data.temp == data["temp"].max()])
-# print(data[data.temp == data.temp.max()])
+import pandas
 
-# monday = data[data.day == "Monday"]  # a row
-# # but how do we access the values under different columns in this row?
-# print(monday.condition)
+data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv")
+# data["Primary Fur Color"]  # this gives us a series (a column)
+# # then we do the following to get the rows in that column whose entry is "Gray": data["Primary Fur Color"] == "Gray"
+# # then we do the following to get the column whose rows are given by the previous line's condition: data[data["Primary Fur Color"] == "Gray"]
+# grey_squirrels = data[data["Primary Fur Color"] == "Gray"]  # and this is how we name that column as a new dataframe
+# print(grey_squirrels)
+# grey_squirrels_count = len(data[data["Primary Fur Color"] == "Gray"])
+# print(grey_squirrels_count)
 
-# monday = data[data.day == "Monday"]
-# monday_temp = monday.temp[0]
-# monday_temp_F = monday_temp * 9/5 + 32
-# print(monday_temp_F)
+grey_squirrels_count = len(data[data["Primary Fur Color"] == "Gray"])
+red_squirrels_count = len(data[data["Primary Fur Color"] == "Cinnamon"])
+black_squirrels_count = len(data[data["Primary Fur Color"] == "Black"])
 
-# monday = data[data.day == "Monday"]
-# monday_temp = monday.temp[0]
-# monday_temp_F = monday_temp * 9/5 + 32
-# print(monday_temp_F)
+print(grey_squirrels_count, red_squirrels_count, black_squirrels_count)
 
-# create a dataframe from scratch
 data_dict = {
-    "students": ["Amy", "James", "Angela"],
-    "scores": [76, 56, 65]
+    "Fur Color": ["Gray", "Cinnamon", "Black"],
+    "Count": [grey_squirrels_count, red_squirrels_count, black_squirrels_count],
 }
 
-# data = pandas.DataFrame(data_dict)
-# print(data)
+# print(data_dict)
 
-data = pandas.DataFrame(data_dict)
-data.to_csv("new_data.csv")  # its input is the path to which I want to save this file
+df = pandas.DataFrame(data_dict)
+
+df.to_csv("squirrel_count.csv")
