@@ -107,3 +107,27 @@ plot_refined_solution(sol, R_for_min_of_potential, optimal_R0)
 print(f"\n our solution approaches a value that is about"
       f" '{abs(R_for_min_of_potential - sol.y[2, -1]):.9f}' units away"
       f" from the target value at infinity \n")
+
+# TODO 6.1: plot "P" vs "R"
+prompt1 = "would you like to plot the pressure? press 'y' or 'n' to continue (i.e. choose 'yes' or 'no', respectively):   "
+prompt2 = "would you like to plot the pressure? press 'y' or 'n' to continue:   "
+inpt = input(prompt1)  # which returns a string
+
+while inpt.lower() != "y" and inpt.lower() != "n":  # this means that as soon as the user's input matches one of the options (i.e. "y, n"), one of those two "!=" comparisons becomes "false", and since we use an "and": the entire statement becomes "false" and we exit the "while" loop
+
+    input(prompt2)
+    inpt = input(prompt2)
+
+if inpt.lower() == "y":
+
+    plt.figure()
+    label = f'P(x), R0={optimal_R0:.3f}'
+    plt.plot(sol.t, sol.y[4], label=label)  # to access what's going to be plotted
+    plt.xscale('log')  # to better understand/visualize the behaviour of the solution
+    plt.xlabel('x (distance)')
+    plt.ylabel('P(x)')
+    plt.title('refined solution for "P(x)"')
+    plt.grid(False)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
