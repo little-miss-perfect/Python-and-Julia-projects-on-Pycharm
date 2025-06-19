@@ -106,7 +106,8 @@ def find_global_minimum(p, start, stop, num_points=500, eps=1e-8):
 
         raise ValueError(f'we found no critical points in "[{start}, {stop}]"')
 
-    # then we exclude "R = 0" as being a critical point (this condition is stated/suggested in page "5" of the article)
+    # then we exclude "R = 0" as being a critical point (this condition is stated/suggested in page "5" of the article).
+    # but maybe there's a better condition like "find the positive points that produce a local minima"
     crits = [r for r in crits if abs(r - 0) > eps]  # we chose only critical points that are away from "zero"
 
     # but if "crits=[]", then "if not crits" is equivalent to "if not False", which is equivalent to "if True", and so the statement evaluates the following block of code
