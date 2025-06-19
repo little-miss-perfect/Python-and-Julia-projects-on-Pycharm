@@ -10,7 +10,7 @@ import numpy as np
 # TODO 1: choose a scenario interactively
 # add the names of current "models" (which are stored in the "scenarios" directory) to this following list
 valid = ["Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"]  # if you add a scenario/model (using the template in the directory "scenarios") then: add the name of that directory to this list
-prompt1 = f"choose a scenario ({', '.join(valid)}): "
+prompt1 = f"choose a scenario ({', '.join(valid)}): "  # join the strings using a comma
 prompt2 = f"that's an invalid choice. the choices are {', '.join(valid)}: "
 
 # first let's ask for a scenario
@@ -121,26 +121,38 @@ print(f"\n our solution approaches a value that is about"
       f" '{abs(R_for_min_of_potential - sol.y[2, -1]):.9f}' units away"
       f" from the target value at infinity \n")
 
-# TODO 6.1: plot "P" vs "R"
-prompt1 = "would you like to plot the pressure? press 'y' or 'n' to continue (i.e. choose 'yes' or 'no', respectively):   "
-prompt2 = "would you like to plot the pressure? press 'y' or 'n' to continue:   "
-inpt = input(prompt1)  # which returns a string
+# TODO 6.1: interactively plot any of the 7 solution components
+# since "r = [n, m, R, DR, P, Ms, Mb]", then we define
+components = [
+    ("n",  0, "n(x)"),
+    ("m",  1, "m(x)"),  # if this component is not showing the expected plot, then try changing the default integration method used in "solve_ivp" in the file "derivative_functions.py" (even if the integration takes a bit longer)
+    ("R",  2, "R(x)"),
+    ("DR", 3, "dR/dx"),
+    ("P",  4, "P(x)"),
+    ("Ms", 5, "M_s(x)"),
+    ("Mb", 6, "M_b(x)"),
+]
 
-while inpt.lower() != "y" and inpt.lower() != "n":  # this means that as soon as the user's input matches one of the options (i.e. "y, n"), one of those two "!=" comparisons becomes "false", and since we use an "and": the entire statement becomes "false" and we exit the "while" loop
+for name, idx, ylabel in components:
+    prompt1 = f"would you like to plot '{name}(x)'?  y/n (or 'q' to quit plotting):  "
+    prompt2 = f"that was an invalid input. would you like to plot '{name}(x)'? type y/n/q:  "
+    choice = input(prompt1).strip().lower()  # we use "lower()" in case the user types "Y" or "N"
 
-    input(prompt2)
-    inpt = input(prompt2)
+    while choice not in ("y", "n", "q"):
+        choice = input(prompt2).strip().lower()
 
-if inpt.lower() == "y":
+    if choice == "q":
+        print("exiting the plotting loop. thanks for using this program :)")
+        break   # which exits the "for" loop entirely
 
-    plt.figure()
-    label = f'P(x), R0={optimal_R0:.3f}'
-    plt.plot(sol.t, sol.y[4], label=label)  # to access what's going to be plotted
-    plt.xscale('log')  # to better understand/visualize the behaviour of the solution
-    plt.xlabel('x (distance)')
-    plt.ylabel('P(x)')
-    plt.title('refined solution for "P(x)"')
-    plt.grid(False)
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+    if choice == "y":
+        plt.figure()
+        plt.plot(sol.t, sol.y[idx], label=f"{ylabel}, R0={optimal_R0:.3f}")
+        plt.xscale("log")
+        plt.xlabel("x (distance)")
+        plt.ylabel(ylabel)
+        plt.title(f"the refined solution for {ylabel}")
+        plt.grid(False)
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
