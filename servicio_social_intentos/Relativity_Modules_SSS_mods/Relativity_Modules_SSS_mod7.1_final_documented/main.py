@@ -7,9 +7,22 @@ from shared.derivative_functions import DerivativeFunctions, refine_R0, find_val
 import numpy as np
 
 
-# TODO 1: choose a scenario
-chosen_scenario = "alpha_L_L_M"  # we need to define this variable in order to make a comparison (between strings)
-scene = load_scenario(chosen_scenario)  # "Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"
+# TODO 1: choose a scenario interactively
+# add the names of current "models" (which are stored in the "scenarios" directory) to this following list
+valid = ["Hu_Sawicki", "alpha_L_L_M", "lambda_L_L_M"]  # if you add a scenario/model (using the template in the directory "scenarios") then: add the name of that directory to this list
+prompt1 = f"choose a scenario ({', '.join(valid)}): "
+prompt2 = f"that's an invalid choice. the choices are {', '.join(valid)}: "
+
+# first let's ask for a scenario
+inpt = input(prompt1).strip()  # "strip" is just in case the user types something like " alpha_L_L_M" or maybe they type "alpha_L_L_M " (it'll remove those blank spaces and then compare). this method is here because we already encountered that small annoying bug of "not typing exactly what is needed", even by accident
+
+# and keep asking while the user doesn't give a valid option
+while inpt != valid[0] and inpt != valid[1] and inpt != valid[2]:
+    inpt = input(prompt2).strip()
+
+# once we have a valid string, assign and load
+chosen_scenario = inpt
+scene = load_scenario(chosen_scenario)
 
 # TODO 1.1: careful with "alpha_L_L_M"
 # define the interval we’d like to try and search for the critical points of the potential associated to a minimum
