@@ -151,7 +151,7 @@ class SimulationLauncher:
             except ValueError:
                 print("❗ Invalid input. Please enter a number.")
 
-    def _compute_max_range(self, samples=91):
+    def _compute_max_range(self, samples=99):
         """
         Estimate the maximum horizontal distance by sampling angles
         evenly from 0° to 90° and taking the maximum final x.

@@ -170,8 +170,18 @@ class GameSession:
                     else:
                         print("   Not enough data to estimate an interval.")
 
-                # Always show true optimal angle
-                print(f"\n📌 The true optimal angle to hit {self.target_x} m was: {angle:.2f}°")
+                # Report *all* solutions rather than just one
+                solutions = self.shooter.find_angle_solutions(
+                    v0=self.v0,
+                    target_x=self.target_x,
+                    theta_bounds=(1, 89),
+                    samples=181
+                )
+                if solutions:
+                    sol_list = ", ".join(f"{s:.2f}°" for s in solutions)
+                    print(f"\n📌 Launch angle(s) to hit {self.target_x} m: {sol_list}")
+                else:
+                    print(f"\n📌 No exact angle solutions found for {self.target_x} m.")
 
                 # Offer the other histogram one last time
                 while True:

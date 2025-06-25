@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.optimize import minimize_scalar
+from scipy.optimize import minimize_scalar, bisect
 from .projectile import ProjectileSimulator
 
 class ShootingEngine:
@@ -72,3 +72,46 @@ class ShootingEngine:
 
         # Return the optimal speed and final error
         return result.x, result.fun
+
+    def find_angle_solutions(self, v0, target_x, theta_bounds=(1, 89), samples=181):
+        """
+        Find *all* launch angles (in degrees) that land at target_x.
+        Scans the interval [theta_bounds[0], theta_bounds[1]] in `samples` steps,
+        identifies sign-changes of f(θ)=x_final(θ)−target_x, and then refines each
+        bracket with bisection.
+
+        Returns:
+          - sorted list of unique angle(s) in degrees
+        """
+
+        # define f(θ)
+        def f(theta_deg):
+            _, sol = self.sim.simulate(theta_deg, v0)
+            return sol[0, -1] - target_x
+
+        # sample θ values and evaluate f
+        thetas = np.linspace(theta_bounds[0], theta_bounds[1], samples)
+        vals = [f(th) for th in thetas]
+
+        roots = []
+        for i in range(len(thetas) - 1):
+            a, b = thetas[i], thetas[i + 1]
+            fa, fb = vals[i], vals[i + 1]
+
+            # exact hit at a sample point?
+            if abs(fa) < 1e-6:
+                roots.append(a)
+            # bracketed zero crossing?
+            elif fa * fb < 0:
+                try:
+                    root = bisect(f, a, b, xtol=1e-3)
+                    roots.append(root)
+                except ValueError:
+                    pass
+
+        # dedupe within 0.01° and sort
+        unique = []
+        for r in roots:
+            if not any(abs(r - u) < 1e-2 for u in unique):
+                unique.append(r)
+        return sorted(unique)
