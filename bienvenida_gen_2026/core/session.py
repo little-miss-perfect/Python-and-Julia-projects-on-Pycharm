@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np                              # for arange
 from interaction.histogram import plot_error_histogram, plot_hit_x_histogram
 
 class GameSession:
@@ -9,7 +10,8 @@ class GameSession:
 
     def __init__(self, sim, shooter, selector, logger,
                  v0, target_x, hit_tolerance,
-                 precise_mode, allow_repeats):
+                 precise_mode, allow_repeats,
+                 time_sep):
         # Initialize simulation tools and config
         self.sim = sim
         self.shooter = shooter
@@ -21,7 +23,10 @@ class GameSession:
         self.precise_mode = precise_mode
         self.allow_repeats = allow_repeats
 
-        # Track interval narrowing guesses (precise mode)
+        # Time‐marker spacing Δt
+        self.time_sep = time_sep
+
+        # Track interval‐narrowing guesses (precise mode)
         self.min_angle = None
         self.max_angle = None
 
@@ -78,6 +83,18 @@ class GameSession:
             plt.figure(figsize=(8, 4.5))
             plt.plot(x_vals, y_vals, label=f'Trajectory (θ = {user_angle:.1f}°)')
             plt.axvline(self.target_x, color='green', linestyle='--', label='🎯 Target')
+
+            # scatter‐plot time markers
+            if self.time_sep:
+                # times at 0, Δt, 2Δt, … until flight end
+                marks = np.arange(0, t_vals[-1] + self.time_sep, self.time_sep)
+                idxs = [np.abs(t_vals - tm).argmin() for tm in marks]
+                plt.scatter(
+                    x_vals[idxs], y_vals[idxs],
+                    color='red', s=25,
+                    label=f'Time marks (Δt={self.time_sep}s)'
+                )
+
             plt.title(f"Trajectory Preview for {person}")
             plt.xlabel('x (m)')
             plt.ylabel('y (m)')
@@ -201,4 +218,3 @@ class GameSession:
                             show_normalized=True
                         )
                 break  # exit the while True
-

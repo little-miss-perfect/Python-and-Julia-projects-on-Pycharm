@@ -30,8 +30,9 @@ class SimulationLauncher:
         self.precise_mode = False
         self.allow_repeats = False
         self.participants = []   # will fill after asking count
-        self.gamma = None        # drag coefficient
+        self.gamma = None        # drag coefficient (not shown here)
         self.k = None            # spring constant
+        self.time_sep = None     # time‐marker interval Δt
 
     def run(self):
         """Main setup logic: prompts the user and builds components."""
@@ -91,25 +92,29 @@ class SimulationLauncher:
                     print("❗ Invalid input. Please enter a number.")
         print()
 
-        # 6) Physical‐experiment inputs: l0, m, x
+        # 6) Physical‐experiment inputs: l₀, m, x
         l0 = self._prompt_positive_float("📏 Enter the unstretched length of the bungee cord (m): ")
         m  = self._prompt_positive_float("⚖️  Enter the projectile mass (kg): ")
         x  = self._prompt_positive_float("📐 Enter the stretch distance when launching (m): ")
         print()
 
-        # 7) Compute launch speed v0 via energy conversion
+        # 7) Compute launch speed v₀ via energy conversion
         self.v0 = math.sqrt(self.k / m) * x
         print(f"💡 Computed launch speed (v0): {self.v0:.2f} m/s\n")
 
-        # 8) Initialize the simulator now (so we can test reachability)
+        # — NEW! — 8) Ask for time‐marker separation Δt
+        self.time_sep = self._prompt_positive_float("⏱ Enter time marker separation Δt (in seconds): ")
+        print()
+
+        # 9) Initialize the simulator now (so we can test reachability)
         self.sim     = ProjectileSimulator(gamma=self.gamma)  # gamma set earlier or default
         self.shooter = ShootingEngine(self.sim)
 
-        # 9) Compute maximum achievable horizontal range
+        # 10) Compute maximum achievable horizontal range
         max_range = self._compute_max_range()
         print(f"📈 Maximum achievable horizontal distance: {max_range:.2f} m\n")
 
-        # 10) Prompt for target_x, enforce <= max_range
+        # 11) Prompt for target_x, enforce ≤ max_range
         while True:
             tgt = self._prompt_positive_float("🎯 Enter the target horizontal distance (m): ")
             if tgt <= max_range:
@@ -119,10 +124,10 @@ class SimulationLauncher:
                 print(f"❗ {tgt:.2f} m exceeds max range ({max_range:.2f} m). Please choose a lower value.\n")
         print()
 
-        # 11) Fixed hit tolerance
+        # 12) Fixed hit tolerance
         self.hit_tolerance = 0.1
 
-        # 12) Finally build selector & logger
+        # 13) Finally build selector & logger
         self.selector = RandomSelector(self.participants)
         self.logger   = DataLogger()
 
@@ -137,7 +142,8 @@ class SimulationLauncher:
             self.target_x,
             self.hit_tolerance,
             self.precise_mode,
-            self.allow_repeats
+            self.allow_repeats,
+            self.time_sep,      # new tenth component
         )
 
     def _prompt_positive_float(self, message):
@@ -151,7 +157,7 @@ class SimulationLauncher:
             except ValueError:
                 print("❗ Invalid input. Please enter a number.")
 
-    def _compute_max_range(self, samples=99):
+    def _compute_max_range(self, samples=91):
         """
         Estimate the maximum horizontal distance by sampling angles
         evenly from 0° to 90° and taking the maximum final x.
