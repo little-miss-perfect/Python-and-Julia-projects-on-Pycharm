@@ -57,10 +57,12 @@ class GameSession:
             if not self.allow_repeats:
                 self.selector.remove_participant(person)
 
-            # Simulate best angle (hidden)
-            angle, predicted_error = self.shooter.find_optimal_angle(v0=self.v0, target_x=self.target_x)
+            # Compute true optimal angle (hidden from user)
+            angle, predicted_error = self.shooter.find_optimal_angle(
+                v0=self.v0, target_x=self.target_x
+            )
 
-            # Ask for user guess angle
+            # Prompt user for their guess
             try:
                 user_angle = float(input("📐 Guess the launch angle (in degrees): "))
             except ValueError:
@@ -69,10 +71,9 @@ class GameSession:
 
             # Simulate guessed trajectory
             t_vals, sol_vals = self.sim.simulate(user_angle, self.v0)
-            x_vals = sol_vals[0]
-            y_vals = sol_vals[1]
+            x_vals, y_vals = sol_vals[0], sol_vals[1]
 
-            # Plot the guessed path
+            # Plot trajectory preview
             plt.clf()
             plt.figure(figsize=(8, 4.5))
             plt.plot(x_vals, y_vals, label=f'Trajectory (θ = {user_angle:.1f}°)')
@@ -85,18 +86,18 @@ class GameSession:
             plt.legend()
             plt.show()
 
-            # Ask for landing location
+            # Prompt for actual landing point
             try:
                 hit_x = float(input("📍 Enter where the projectile landed (x in meters): "))
                 if hit_x < 0 or hit_x > 10:
                     print("⚠️ That seems out of range. Try again.")
                     continue
-                hit_y = 0.0  # Flat ground
+                hit_y = 0.0
             except ValueError:
                 print("⚠️ Invalid input. Skipping turn.")
                 continue
 
-            # Log the throw
+            # Log the result
             self.logger.log_throw(
                 participant=person,
                 theta_deg=user_angle,
@@ -107,7 +108,7 @@ class GameSession:
             )
             print("✅ Throw logged to data/logs.csv.")
 
-            # Compute and report error
+            # Compute error and report hit/miss
             error = hit_x - self.target_x
             abs_error = abs(error)
             if abs_error <= self.hit_tolerance:
@@ -115,37 +116,41 @@ class GameSession:
             else:
                 print(f"❌ Missed by {abs_error:.2f} meters.")
 
-            # Update angle bounds in precise mode
+            # In precise mode, update min/max bounds and print sorted
             if self.precise_mode:
-                if error < 0:
-                    if self.min_angle is None or user_angle > self.min_angle:
-                        self.min_angle = user_angle
-                elif error > 0:
-                    if self.max_angle is None or user_angle < self.max_angle:
-                        self.max_angle = user_angle
+                if error < 0 and (self.min_angle is None or user_angle > self.min_angle):
+                    self.min_angle = user_angle
+                elif error > 0 and (self.max_angle is None or user_angle < self.max_angle):
+                    self.max_angle = user_angle
 
                 if self.min_angle is not None and self.max_angle is not None:
-                    print(f"📉 The optimal angle is likely between ({self.min_angle:.2f}°, {self.max_angle:.2f}°)")
+                    low, high = sorted([self.min_angle, self.max_angle])
+                    print(f"📉 The optimal angle is likely between ({low:.2f}°, {high:.2f}°)")
 
-            # Show selected histogram type
+            # *** Histogram update runs every turn, not only in precise mode ***
             print("📊 Updating histograms...")
             if self.use_error_histogram:
-                plot_error_histogram(filepath='data/logs.csv', threshold=self.hit_tolerance, show_normalized=True)
+                plot_error_histogram(
+                    filepath='data/logs.csv',
+                    threshold=self.hit_tolerance,
+                    show_normalized=True
+                )
             else:
                 plot_hit_x_histogram(filepath='data/logs.csv')
 
-            # Prompt for next round or quit
+            # Prompt to continue or quit, with validation
             while True:
-                next_action = input("⏭️ Press Enter for next participant, or type 'q' to quit: ").strip().lower()
+                next_action = input(
+                    "⏭️ Press Enter for next participant, or type 'q' to quit: "
+                ).strip().lower()
                 if next_action in ('', 'q'):
                     break
                 print("⚠️ Invalid input. Please press Enter or type 'q'.")
 
-            # If quitting, break out
             if next_action == 'q':
                 print("👋 Goodbye!")
 
-                # Final leaderboard
+                # Show leaderboard
                 from simulation.analysis import show_leaderboard
                 show_leaderboard(
                     filepath='data/logs.csv',
@@ -156,28 +161,34 @@ class GameSession:
                     show_chart=True
                 )
 
-                # Show final interval estimate if in precise mode
+                # Final precise‐mode interval print, sorted
                 if self.precise_mode:
                     print("\n🔍 Final interval estimate based on guesses:")
                     if self.min_angle is not None and self.max_angle is not None:
-                        print(f"   Estimated angle interval: ({self.min_angle:.2f}°, {self.max_angle:.2f}°)")
+                        low, high = sorted([self.min_angle, self.max_angle])
+                        print(f"   Estimated angle interval: ({low:.2f}°, {high:.2f}°)")
                     else:
                         print("   Not enough data to estimate an interval.")
 
-                # Always show optimal angle
+                # Always show true optimal angle
                 print(f"\n📌 The true optimal angle to hit {self.target_x} m was: {angle:.2f}°")
 
-                # Ask if user wants to see the OTHER histogram now
+                # Offer the other histogram one last time
                 while True:
-                    see_other = input("\nWould you like to also see the other histogram? (y/n): ").strip().lower()
+                    see_other = input(
+                        "\nWould you like to also see the other histogram? (y/n): "
+                    ).strip().lower()
                     if see_other in ('y', 'n'):
                         break
                     print("⚠️ Please enter 'y' or 'n'.")
-
                 if see_other == 'y':
                     if self.use_error_histogram:
                         plot_hit_x_histogram(filepath='data/logs.csv')
                     else:
-                        plot_error_histogram(filepath='data/logs.csv', threshold=self.hit_tolerance, show_normalized=True)
+                        plot_error_histogram(
+                            filepath='data/logs.csv',
+                            threshold=self.hit_tolerance,
+                            show_normalized=True
+                        )
+                break  # exit the while True
 
-                break
