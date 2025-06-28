@@ -34,6 +34,12 @@ class GameSession:
         # Choose which histogram to display during the game
         self.use_error_histogram = self._prompt_histogram_mode()
 
+        # ➕ NEW: ask if user wants to see the true optimal φ* once
+        answer = input(
+            "\n🔎 Reveal true optimal arm‐orientation φ* before guessing begins? (y/n): "
+        ).strip().lower()
+        self.reveal_optimal = (answer == 'y')
+
     def _prompt_histogram_mode(self):
         """Prompt user to choose histogram mode with input validation."""
         while True:
@@ -52,6 +58,23 @@ class GameSession:
 
     def run(self):
         """Run the interactive session loop."""
+
+        # Compute both θ solutions once, convert to φ = θ + 90°
+        solutions = self.shooter.find_angle_solutions(
+            v0=self.v0,
+            target_x=self.target_x,
+            theta_bounds=(1, 89),
+            samples=181
+        )
+        # Convert θ-solutions into φ-solutions
+        phi_sols = [theta + 90 for theta in solutions]
+
+        # ➕ Reveal all φ* solutions once, before any guesses
+        if self.reveal_optimal:
+            sol_list = ", ".join(f"{phi:.2f}°" for phi in phi_sols)
+            print(f"\nℹ️  [Hint] true optimal arm‐orientations φ* = {sol_list}\n")
+
+        # now enter the per‐turn loop
         while True:
             print("\n--- NEW TURN ---")
 
@@ -68,17 +91,10 @@ class GameSession:
             if not self.allow_repeats:
                 self.selector.remove_participant(person)
 
-            # Compute true optimal angle θ* (hidden from user)
-            theta_opt, predicted_error = self.shooter.find_optimal_angle(
-                v0=self.v0, target_x=self.target_x
-            )
-            # Convert to arm‐orientation φ* = θ* + 90°, for our own posterity
-            phi_opt = theta_opt + 90
-
             # --- REPLACED: prompt for φ instead of θ ---
             try:
                 user_phi = float(input(
-                "📐 Enter the arm orientation φ (° CCW from +x, must be ≥90° and ≤180°): "
+                    "📐 Enter the arm orientation φ (° CCW from +x, must be ≥90° and ≤180°): "
                 ))
                 if not (90 <= user_phi <= 180):
                     print("❗ φ must be between 90° (horizontal) and 180° (vertical up).")
