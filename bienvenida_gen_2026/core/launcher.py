@@ -33,6 +33,7 @@ class SimulationLauncher:
         self.gamma = None        # drag coefficient (not shown here)
         self.k = None            # spring constant
         self.time_sep = None     # time‐marker interval Δt
+        self.arm_length = None  # ← declare it here to avoid “defined outside __init__”
 
     def run(self):
         """Main setup logic: prompts the user and builds components."""
@@ -98,6 +99,14 @@ class SimulationLauncher:
         x  = self._prompt_positive_float("📐 Enter the stretch distance when launching (m): ")
         print()
 
+        # 6.1) Ask for the catapult arm length
+        arm_length = self._prompt_positive_float("🔧 Enter the length of the catapult arm (m): ")
+        print()
+
+        # Store for simulator
+        self.arm_length = arm_length
+
+
         # 7) Compute launch speed v₀ via energy conversion
         self.v0 = math.sqrt(self.k / m) * x
         print(f"💡 Computed launch speed (v0): {self.v0:.2f} m/s\n")
@@ -107,7 +116,7 @@ class SimulationLauncher:
         print()
 
         # 9) Initialize the simulator now (so we can test reachability)
-        self.sim     = ProjectileSimulator(gamma=self.gamma)  # gamma set earlier or default
+        self.sim     = ProjectileSimulator(gamma=self.gamma, L=self.arm_length)  # now using user-supplied arm length
         self.shooter = ShootingEngine(self.sim)
 
         # 10) Compute maximum achievable horizontal range

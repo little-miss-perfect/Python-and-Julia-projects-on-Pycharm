@@ -40,11 +40,13 @@ class ProjectileSimulator:
         - v0 is the launch speed
         - Assumes launch height = length of the catapult arm (pivot height)
         """
-        theta = np.radians(theta_deg)
+        theta = np.radians(theta_deg)  # θ = φ – 90° when called from session.py
         vx0 = v0 * np.cos(theta)
         vy0 = v0 * np.sin(theta)
         x0 = 0.0
-        y0 = self.L
+        # release height = arm length × sin(pi - φ) = arm length × sin(φ)
+        # since here θ = φ–90°, sin(φ) = cos(θ)
+        y0 = self.L * np.cos(theta)
         return [x0, y0, vx0, vy0]
 
     def equations_of_motion(self, t, u):

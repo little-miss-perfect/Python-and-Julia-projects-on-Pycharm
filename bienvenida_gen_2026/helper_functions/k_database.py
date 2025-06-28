@@ -2,36 +2,25 @@ import os
 import csv
 
 
-def save_k_value(name, k_value, l0, filepath='data/estimated_k.csv'):
+def save_k_value(name, k_value, l0,
+                 filepath='experimental/data/processed/estimated_k.csv'):
     """
-    Save an estimated spring constant k with its associated name and unstretched length.
-
-    Parameters:
-    - name: string identifier for the bungee cord
-    - k_value: estimated spring constant (float)
-    - l0: unstretched length of the cord (float)
-    - filepath: where to save the entry (default: 'data/estimated_k.csv')
+    Append a named spring-constant entry to CSV, with nice ', ' spacing.
     """
-    # Ensure the directory exists
+    # Ensure directory exists
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
-    # Determine whether to write the header
+    # Does file need a header?
     write_header = not os.path.exists(filepath) or os.stat(filepath).st_size == 0
 
-    with open(filepath, mode='a', newline='') as f:
-        writer = csv.writer(f)
-
-        # Write header with spaces after commas if needed
+    with open(filepath, 'a', newline='') as f:
         if write_header:
-            # Join strings manually with ", " instead of using list
             f.write("name, unstretched_length, k\n")
-
-        # Write row manually with visual spacing
-        row = f"{name}, {l0}, {k_value}\n"
-        f.write(row)
+        f.write(f"{name}, {l0}, {k_value}\n")
 
     print(f"✅ Saved k = {k_value:.2f} N/m under name '{name}'")
-    print(f"💾 Saved estimated k = {k_value:.2f} N/m to {filepath}")
+    print(f"💾 File updated: {filepath}")
+
 
 def load_all_k_values(filepath='data/estimated_k.csv'):
     """
@@ -54,7 +43,7 @@ def load_all_k_values(filepath='data/estimated_k.csv'):
             for row in reader
         ]
 
-def load_saved_k(filepath='experimental/data/estimated_k.csv'):
+def load_saved_k(filepath='experimental/data/processed/estimated_k.csv'):
     """
     Prompt user to choose one of the saved spring constants from CSV.
 
