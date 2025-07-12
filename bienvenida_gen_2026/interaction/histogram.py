@@ -14,7 +14,7 @@ def load_column(filepath, column_name):
     - List of floats
     """
     with open(filepath, mode='r') as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f, skipinitialspace=True)
         return [float(row[column_name]) for row in reader if row[column_name] != '']
 
 

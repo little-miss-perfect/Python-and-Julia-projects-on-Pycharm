@@ -64,7 +64,7 @@ def show_leaderboard(filepath='data/logs.csv', top_n=3, hit_only=False, toleranc
 
     # Open the log file and load all rows into a list of dictionaries
     with open(filepath, mode='r') as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f, skipinitialspace=True)
         throws = list(reader)
 
     # If no data is found, exit early

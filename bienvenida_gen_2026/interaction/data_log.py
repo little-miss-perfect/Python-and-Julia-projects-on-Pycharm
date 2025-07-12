@@ -28,18 +28,16 @@ class DataLogger:
         # If the file does not exist yet, create it and write the header row
         if not os.path.exists(self.filepath):
             with open(self.filepath, mode='w', newline='') as f:
-                writer = csv.writer(f)
-                # Column headers
-                writer.writerow([
-                    'timestamp',
-                    'participant',
-                    'theta_deg',
-                    'v0',
-                    'hit_x',
-                    'hit_y',
-                    'target_x',
-                    'error'
-                ])
+                header = ['timestamp',
+                          'participant',
+                          'theta_deg',
+                          'v0',
+                          'hit_x',
+                          'hit_y',
+                          'target_x',
+                          'error']
+                # join with ", " and add a newline
+                f.write(', '.join(header) + '\n')
 
     def log_throw(self, participant, theta_deg, v0, hit_x, hit_y, target_x):
         """
@@ -57,17 +55,17 @@ class DataLogger:
 
         # Open file in append mode and write one row
         with open(self.filepath, mode='a', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow([
-                timestamp,
-                participant,
-                theta_deg,
-                v0,
-                hit_x,
-                hit_y,
-                target_x,
-                error
-            ])
+            row = [timestamp,
+                   participant,
+                   theta_deg,
+                   v0,
+                   hit_x,
+                   hit_y,
+                   target_x,
+                   error]
+            # make sure everything is a string
+            str_row = [str(item) for item in row]
+            f.write(', '.join(str_row) + '\n')
 
     def load_all(self):
         """

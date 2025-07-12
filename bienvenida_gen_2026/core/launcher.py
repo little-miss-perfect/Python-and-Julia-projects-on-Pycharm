@@ -11,15 +11,15 @@ from interaction.data_log import DataLogger
 
 class SimulationLauncher:
     """
-    This class sets up the entire projectile simulation:
-    - Asks the user for inputs like whether to reuse k, or clear logs
-    - Prompts for participant count and physics values
-    - Validates that the target is within reach
-    - Initializes simulation and logging components
+    this class sets up the entire projectile simulation, it:
+    - asks the user for inputs like whether to reuse k, or clear logs
+    - prompts for the amount of participants and physical input values
+    - validates that the target is within reach
+    - initializes the simulation and logging components
     """
 
     def __init__(self):
-        # Will hold our core objects
+
         self.sim = None
         self.shooter = None
         self.selector = None
@@ -29,119 +29,126 @@ class SimulationLauncher:
         self.hit_tolerance = None
         self.precise_mode = False
         self.allow_repeats = False
-        self.participants = []   # will fill after asking count
-        self.gamma = None        # drag coefficient (not shown here)
-        self.k = None            # spring constant
-        self.time_sep = None     # time‐marker interval Δt
-        self.arm_length = None  # ← declare it here to avoid “defined outside __init__”
+        self.participants = []          # it'll fill after asking for the amount of participants
+        self.gamma = None               # the drag coefficient (not shown here)
+        self.k = None                   # the spring constant
+        self.time_sep = None            # the time‐marker interval "delta_t"
+        self.arm_length = None          # we declare it here to avoid the "defined outside __init__" warning
+        self.max_range = None           # same thing here
 
     def run(self):
-        """Main setup logic: prompts the user and builds components."""
-        print("🎬 Launching Simulation Setup...\n")
+        """
+        the main setup logic: it prompts the user and builds the components.
+        """
 
-        # 1) Precise angle‐interval mode?
+        print("launching the simulation setup...\n")
+
+        # TODO run.1: use the "precise angle" interval mode
         self.precise_mode = prompt_yes_no(
-            "Enable precise angle search mode?\nThis helps estimate the interval where the optimal angle lies"
+            "enable 'precise angle' search mode?\n(this helps estimate the interval where an optimal angle lies)"
         )
         print()
 
-        # 2) Repeats allowed?
-        self.allow_repeats = prompt_yes_no("Allow participants to take more than one shot?")
+        # TODO run.2: are repeats allowed?
+        self.allow_repeats = prompt_yes_no("allow participants to take more than one shot?")
         print()
 
-        # 3) Clear logs?
-        if prompt_yes_no("Do you want to clear previous logs?"):
+        # TODO run.3: clear the logs
+        if prompt_yes_no("do you want to clear previous logs?"):
             for file in ['data/logs.csv', 'data/leaderboard.csv']:
                 if os.path.exists(file):
                     os.remove(file)
-                    print(f"🧹 Cleared file: {file}")
+                    print(f"cleared file: {file}")
         print()
 
-        # 4) How many participants?
+        # TODO run.4: ask for the amount of participants
         while True:
             try:
-                n = int(input("👥 How many participants are there? (positive integer): "))
+                n = int(input("how many participants are there? (input a natural number): "))
                 if n > 0:
-                    self.participants = [f"D{i+1}" for i in range(n)]
+                    self.participants = [f"D{i+1}" for i in range(n)]  # which indicates one of the "desks" a participant sits in
                     break
                 else:
-                    print("❗ Please enter a natural number.")
+                    print("please enter a natural number.")
             except ValueError:
-                print("❗ Invalid input. Please enter a valid number.")
+                print("invalid input. please enter a valid number.")
         print()
 
-        # 5) Spring constant k selection (saved vs manual)
-        if prompt_yes_no("Do you want to use a saved spring constant (k)?"):
+        # TODO run.5: selection of the spring constant k (using a saved one or manually inputting one)
+        if prompt_yes_no("do you want to use a saved spring constant 'k'?"):
             entry = load_saved_k(filepath="experimental/data/saved_k_values.csv")
             if entry:
                 self.k = entry["k"]
-                print(f"✅ Using saved k = {self.k:.2f} N/m "
-                      f"('{entry['name']}', l₀ = {entry['l0']} m)")
+                print(f"using saved 'k = {self.k:.2f} N/m' "
+                      f"('{entry['name']}', l_0 = {entry['l0']} m)")
             else:
-                print("⚠️ No saved k values available.")
+                print("no saved 'k' values available.")
         if self.k is None:
-            # Manual entry
+            # and for the manual entry we write
             while True:
                 try:
-                    val = float(input("🔧 Enter the spring constant k (N/m): "))
+                    val = float(input("enter the spring constant 'k (N/m)': "))
                     if val > 0:
                         self.k = val
                         break
                     else:
-                        print("❗ Must be positive.")
+                        print("it must be positive.")
                 except ValueError:
-                    print("❗ Invalid input. Please enter a number.")
+                    print("invalid input. please enter a positive number.")
         print()
 
-        # 6) Physical‐experiment inputs: l₀, m, x
-        l0 = self._prompt_positive_float("📏 Enter the unstretched length of the bungee cord (m): ")
-        m  = self._prompt_positive_float("⚖️  Enter the projectile mass (kg): ")
-        x  = self._prompt_positive_float("📐 Enter the stretch distance when launching (m): ")
+        # TODO run.6: physical‐experimental inputs: l_0, m, x
+        l0 = self._prompt_positive_float("enter the unstretched length of the spring (m): ")
+        m  = self._prompt_positive_float("enter the projectile mass (kg): ")
+        x  = self._prompt_positive_float("enter the stretched distance before launching (m): ")
         print()
 
-        # 6.1) Ask for the catapult arm length
-        arm_length = self._prompt_positive_float("🔧 Enter the length of the catapult arm (m): ")
+        # TODO run.6.1: ask for the catapult's arm length
+        arm_length = self._prompt_positive_float("enter the length of the catapult's arm (m): ")
         print()
 
-        # Store for simulator
+        # TODO run.6.2: store the value for the simulator
         self.arm_length = arm_length
 
 
-        # 7) Compute launch speed v₀ via energy conversion
+        # TODO run.7: compute the launch speed v_0 using energy conservation (from the potential energy in the spring to its kinetic energy once released)
         self.v0 = math.sqrt(self.k / m) * x
-        print(f"💡 Computed launch speed (v0): {self.v0:.2f} m/s\n")
+        print(f"computed launch speed (v0): {self.v0:.2f} m/s\n")
 
-        # — NEW! — 8) Ask for time‐marker separation Δt
-        self.time_sep = self._prompt_positive_float("⏱ Enter time marker separation Δt (in seconds): ")
+        # TODO run.8: ask for a "time‐marker" separation "delta_t"
+        self.time_sep = self._prompt_positive_float("enter a time-marker separation for the plots (in seconds): ")
         print()
 
-        # 9) Initialize the simulator now (so we can test reachability)
-        self.sim     = ProjectileSimulator(gamma=self.gamma, L=self.arm_length)  # now using user-supplied arm length
+        # TODO run.9: this initializes the simulator now (so we can test reachability)
+        self.sim = ProjectileSimulator(gamma=self.gamma, L=self.arm_length)
         self.shooter = ShootingEngine(self.sim)
 
-        # 10) Compute maximum achievable horizontal range
-        max_range = self._compute_max_range()
-        print(f"📈 Maximum achievable horizontal distance: {max_range:.2f} m\n")
+        # TODO run.10: compute and store the horizontal range
+        self.max_range = self._compute_max_range()
+        print(f"maximum achievable horizontal distance: {self.max_range:.2f} m\n")
 
-        # 11) Prompt for target_x, enforce ≤ max_range
+        # TODO run.11: prompt for "target_x", such that it's ≤ self.max_range
         while True:
-            tgt = self._prompt_positive_float("🎯 Enter the target horizontal distance (m): ")
-            if tgt <= max_range:
+            tgt = self._prompt_positive_float("enter the target horizontal distance (m): ")
+            if tgt <= self.max_range:
                 self.target_x = tgt
                 break
             else:
-                print(f"❗ {tgt:.2f} m exceeds max range ({max_range:.2f} m). Please choose a lower value.\n")
+                print(f"'{tgt:.2f} m' exceeds the maximum range ('{self.max_range:.2f} m'). please choose a lower value.\n")
         print()
 
-        # 12) Fixed hit tolerance
-        self.hit_tolerance = 0.1
+        # TODO run.12: fix a "hit tolerance"
+        self.hit_tolerance = 0.1  # hard coding is bad. we should eventually fix this and ask the user to define a "tolerance" for hitting the target
 
-        # 13) Finally build selector & logger
+        # TODO run.13: finally, make a participant selector and logger
         self.selector = RandomSelector(self.participants)
         self.logger   = DataLogger()
 
     def get_components(self):
-        """Return simulation components for main.py."""
+        """
+        return the simulation components used in "main.py".
+        """
+
         return (
             self.sim,
             self.shooter,
@@ -152,25 +159,31 @@ class SimulationLauncher:
             self.hit_tolerance,
             self.precise_mode,
             self.allow_repeats,
-            self.time_sep,      # new tenth component
+            self.time_sep,
+            self.max_range,
         )
 
     def _prompt_positive_float(self, message):
-        """Helper: keep asking until a positive float is entered."""
+        """
+        a helper method: keep asking until a positive float is entered.
+        """
+
         while True:
             try:
                 val = float(input(message + " "))
                 if val > 0:
                     return val
-                print("❗ Please enter a positive number.")
+                print("please enter a positive number.")
             except ValueError:
-                print("❗ Invalid input. Please enter a number.")
+                print("invalid input. please enter a number.")
 
-    def _compute_max_range(self, samples=91):
+    def _compute_max_range(self, samples=90):
         """
-        Estimate the maximum horizontal distance by sampling angles
-        evenly from 0° to 90° and taking the maximum final x.
+        made to estimate the maximum horizontal distance by sampling angles
+        evenly from 0° to 90° and taking the maximum final horizontal position
+        at "y = 0" (at the moment, we've set this constraint to our model).
         """
+
         max_x = 0.0
         for theta in np.linspace(0, 90, samples):
             t_vals, sol_vals = self.sim.simulate(theta, self.v0)
